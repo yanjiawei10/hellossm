@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+	   http://www.springframework.org/schema/aop/spring-aop.xsd
+           ">
+    <!--开启Controller注解扫描，只扫描Controller注解-->
+    <context:component-scan base-package="cn.ppdxzz">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--配置视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    <!--过滤静态资源-->
+    <mvc:resources location="/css/" mapping="/css/**" />
+    <mvc:resources location="/images/" mapping="/images/**" />
+    <mvc:resources location="/lib/" mapping="/lib/**" />
+    <mvc:resources location="/js/" mapping="/js/**" />
+    <mvc:resources location="/fonts/" mapping="/fonts/**" />
+    <mvc:resources location="/layui_exts/" mapping="/layui_exts/**" />
+    <mvc:resources location="/layer/" mapping="/layer/**"  />
+    <!--开启SpringMVC的注解支持-->
+    <mvc:annotation-driven />
+    <!--
+		支持AOP的注解支持，AOP底层使用代理技术
+		JDK动态代理，要求必须有接口
+		cglib代理，生成子类对象，proxy-target-class="true" 默认使用cglib的方式
+	-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+</beans>
