@@ -40,4 +40,21 @@
 	-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
+    <!--配置拦截器，拦截地址栏直接输入的地址进行访问的请求-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/**/fonts/*"/>
+            <mvc:exclude-mapping path="/**/css/*"/>
+            <mvc:exclude-mapping path="/**/images/*"/>
+            <mvc:exclude-mapping path="/**/js/*"/>
+            <mvc:exclude-mapping path="/**/layer/*"/>
+            <mvc:exclude-mapping path="/**/layui_exts/*"/>
+            <mvc:exclude-mapping path="/**/lib/*"/>
+            <mvc:exclude-mapping path="/**/Login"/>
+            <mvc:exclude-mapping path="/**/to_login"/>
+            <bean class="cn.ppdxzz.controller.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

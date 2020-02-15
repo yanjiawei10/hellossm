@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -44,7 +45,13 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/login")
-    public String login(Model model, Admin admin, HttpSession session, HttpServletRequest request) throws Exception {
+    public String login(Model model, Admin admin, HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+        PrintWriter writer = response.getWriter();
+        if (admin == null || admin.getUsername() == null || admin.getPassword() == null) {
+            return "login";
+        }
         admin.setPassword(MD5Util.MD5EncodeUtf8(admin.getPassword()));
         Admin ad = adminService.findAdmin(admin);
         if (ad != null) {
@@ -57,9 +64,14 @@ public class AdminController {
         return "login";
     }
 
+    //拦截后跳转至登录页
+    @RequestMapping("/to_login")
+    public String Login() {
+        return "login";
+    }
     /**
      * 退出登录
-     */
+    n */
     @RequestMapping(value = "/loginOut")
     public String loginOut(Admin admin,Model model,HttpSession session) {
         //通过session.invalidate()方法来注销当前的session
@@ -72,16 +84,24 @@ public class AdminController {
      * 分页查询所有管理员信息
      */
     @RequestMapping(value = "/findAllAdmin")
-    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
-        List<Admin> admins = adminService.findAll(page,size);
+        List<Admin> admins = null;
+        String username = request.getParameter("username");
+        if (username == null || username.trim().equals("") || username.length() == 0) {
+            admins = adminService.findAll(page,size);
+        }else {
+            admins = adminService.serarchInfo(page,size,username);
+        }
         //PageInfo就是一个封装了分页数据的bean
         PageInfo pageInfo = new PageInfo(admins);
         mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin-list");
         return mv;
     }
-
+    
     /**
      * 删除管理员
      */

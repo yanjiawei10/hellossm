@@ -15,7 +15,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/layer/layer.js"></script>
 </head>
-<body>
+<body background="${pageContext.request.contextPath}/images/01.jpg">
 <br><br>
 <input type="hidden" id="id" name="id" value="${ad.id}">
 <div class="row form-horizontal">
@@ -46,27 +46,28 @@
     <div class="form-group">
         <label class="col-sm-2 control-label form-label">权限:</label>
         <div class="col-sm-8">
-            <c:if test="${ad.power == 0}">
-                <select class="form-control" name="power" id="power">
-                    <option value="0" selected>未授权</option>
-                    <option value="1">授权</option>
-                    <option value="2">超级权限</option>
-                </select>
-            </c:if>
-            <c:if test="${ad.power == 1}">
-                <select class="form-control" name="power" id="power">
-                    <option value="0">未授权</option>
-                    <option value="1" selected>授权</option>
-                    <option value="2">超级权限</option>
-                </select>
-            </c:if>
-            <c:if test="${ad.power == 2}">
-                <select class="form-control" name="power" id="power">
-                    <option value="0" selected>未授权</option>
-                    <option value="1">授权</option>
-                    <option value="2" selected>超级权限</option>
-                </select>
-            </c:if>
+                <c:if test="${ad.power == 0}">
+                    <select class="form-control" name="power" id="power">
+                        <option value="0" selected>未授权</option>
+                        <option value="1">授权</option>
+                        <option value="2">超级权限</option>
+                    </select>
+                </c:if>
+                <c:if test="${ad.power == 1}">
+                    <select class="form-control" name="power" id="power">
+                        <option value="0">未授权</option>
+                        <option value="1" selected>授权</option>
+                        <option value="2">超级权限</option>
+                    </select>
+                </c:if>
+
+                <c:if test="${ad.power == 2}">
+                    <select class="form-control" name="power" id="power">
+                        <option value="0" selected>未授权</option>
+                        <option value="1">授权</option>
+                        <option value="2" selected>超级权限</option>
+                    </select>
+                </c:if>
         </div>
     </div>
     <div class="form-group">
@@ -79,6 +80,7 @@
 <div class="row">
     <div class="form-group btn-group col-md-offset-5">
         <button class="btn btn-warning" onclick="toValidate()">确认修改</button>
+        <a type="button" href="${pageContext.request.contextPath}/findAllAdmin" class="btn btn-primary">返回列表</a>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>

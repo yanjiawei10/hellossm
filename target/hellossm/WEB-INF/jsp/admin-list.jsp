@@ -31,6 +31,11 @@
             //向服务器发送请求，改变每页显示条数
             location.href = "${pageContext.request.contextPath}/findAllAdmin?page=1&size="+ pageSize;
         }
+        $("#serarch_btn").click(function () {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            location.href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=4&username="+username;
+        });
     </script>
 </head>
 <body>
@@ -51,16 +56,16 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
+                            <input class="layui-input" type="text" autocomplete="on" placeholder="用户名" name="username" id="username" value="${param.username}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
+                            <input class="layui-input" type="text" autocomplete="off" placeholder="姓名" name="name" id="name">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                            <input type="text" name="description" id="description" placeholder="描述" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                            <button class="layui-btn"  id="serarch_btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
@@ -73,7 +78,6 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr style="text-align: center">
-                            <th style="text-align: center">ID</th>
                             <th style="text-align: center">用户名</th>
                             <th style="text-align: center">姓名</th>
                             <th style="text-align: center">联系方式</th>
@@ -84,7 +88,6 @@
                         <tbody>
                         <c:forEach items="${pageInfo.list}" var="admin">
                         <tr style="text-align: center">
-                            <td>${admin.id}</td>
                             <td>${admin.username}</td>
                             <td>${admin.name}</td>
                             <td>${admin.phone}</td>
@@ -110,30 +113,30 @@
                     <div class="form-group form-inline">
                         当前页：${pageInfo.pageNum}&nbsp;/&nbsp;${pageInfo.pages}&emsp; 每页
                         <select class="form-control" id="changePageSize" onchange="changePageSize()">
-                            <option>4</option>
-                            <option>5</option>
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
                         </select> 条
                     </div>
                 </div>
                 <div class="box-tools pull-right">
                     <ul class="pagination">
                         <li>
-                            <a href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a>
+                            <a href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=${pageInfo.pageSize}&username=${param.username}" aria-label="Previous">首页</a>
                         </li>
                         <c:if test="${pageInfo.pageNum > 1}">
-                        <li><a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}">上一页</a></li>
+                        <li><a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}&username=${param.username}">上一页</a></li>
                         </c:if>
                         <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
-                            <li><a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageNum}&size=${pageInfo.pageSize}&username=${param.username}">${pageNum}</a></li>
                         </c:forEach>
                         <c:if test="${pageInfo.pageNum < pageInfo.pages}">
-                        <li><a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}">下一页</a></li>
+                        <li><a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}&username=${param.username}">下一页</a></li>
                         </c:if>
                         <li>
-                            <a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a>
+                            <a href="${pageContext.request.contextPath}/findAllAdmin?page=${pageInfo.pages}&size=${pageInfo.pageSize}&username=${param.username}"  aria-label="Next">尾页</a>
                         </li>
                     </ul>
                 </div>

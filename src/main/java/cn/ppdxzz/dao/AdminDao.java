@@ -1,10 +1,7 @@
 package cn.ppdxzz.dao;
 
 import cn.ppdxzz.domain.Admin;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -77,5 +74,10 @@ public interface AdminDao {
      */
     @Update("update admins set password = #{password} where id = #{id}")
     void updatePassword(String password,Integer id) throws Exception;
+
+    //select * from admins where username like '%p%' or name like '%万%' or power like '%1%' or description like '%管理员%';
+    //模糊搜索管理员信息，查询结果返回一个list集合
+    @Select("select * from admins where username like '%${tip}%' or name like '%${tip}%' or power like '%${tip}%' or description like '%${tip}%'")
+    List<Admin> serarchInfo(@Param(value="tip") String tip) throws Exception;
 
 }

@@ -98,4 +98,17 @@ public class AdminServiceImpl implements AdminService {
         }
         return false;
     }
+
+    /**
+     * 管理员信息模糊查询
+     * @param tip
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Admin> serarchInfo(int page,int size,String tip) throws Exception {
+        PageHelper.startPage(page,size);
+        List<Admin> list = adminDao.serarchInfo(tip);
+        return list;
+    }
 }

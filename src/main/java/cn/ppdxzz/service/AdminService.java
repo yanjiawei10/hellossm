@@ -27,4 +27,6 @@ public interface AdminService {
     void addAdmin(Admin admin) throws Exception;
 
     Boolean checkUserName(String u_name) throws Exception;
+    //模糊搜索管理员信息，查询结果返回一个list集合
+    List<Admin> serarchInfo(int page,int size,String tip) throws Exception;
 }
