@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +30,6 @@ import java.util.List;
 @Controller
 public class AdminController {
 
-    private PrintWriter writer;
     private AdminService adminService;
     @Autowired
     public void setAdminService(AdminService adminService) {
@@ -89,11 +89,11 @@ public class AdminController {
         response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
         List<Admin> admins = null;
-        String username = request.getParameter("username");
-        if (username == null || username.trim().equals("") || username.length() == 0) {
+        String keyword = request.getParameter("keyword");
+        if (keyword == null || keyword.trim().equals("") || keyword.length() == 0) {
             admins = adminService.findAll(page,size);
         }else {
-            admins = adminService.serarchInfo(page,size,username);
+            admins = adminService.serarchInfo(page,size,keyword);
         }
         //PageInfo就是一个封装了分页数据的bean
         PageInfo pageInfo = new PageInfo(admins);
@@ -101,7 +101,7 @@ public class AdminController {
         mv.setViewName("admin-list");
         return mv;
     }
-    
+
     /**
      * 删除管理员
      */
@@ -185,13 +185,12 @@ public class AdminController {
     //修改管理员信息
     @RequestMapping("/editAdmin")
     public void editAdmin(Admin admin,HttpServletResponse response) throws Exception {
-        writer = response.getWriter();
+        PrintWriter writer = response.getWriter();
         if (admin == null) {
             writer.write("false");
             return;
         }else {
             if(admin.getUsername() == null || "".trim().equals(admin.getUsername())
-                    || admin.getPassword() == null ||"".trim().equals(admin.getPassword())
                     || admin.getName() == null || "".trim().equals(admin.getName())
                     || admin.getPhone() == null || "".trim().equals(admin.getPhone())
                     || admin.getDescription() == null || "".trim().equals(admin.getDescription())) {
@@ -199,10 +198,35 @@ public class AdminController {
                 return;
             }
         }
-        admin.setPassword(MD5Util.MD5EncodeUtf8(admin.getPassword()));
+        //admin.setPassword(MD5Util.MD5EncodeUtf8(admin.getPassword()));
         adminService.updateAdmin(admin);
         //更新成功进行提示信息回显
         writer.write("true");
+    }
+
+    /**
+     * 授权操作
+     */
+    @RequestMapping("/put_power")
+    public void put_power(Admin admin,HttpServletResponse response) throws Exception {
+        PrintWriter writer = response.getWriter();
+        if (admin == null) {
+            writer.write("false");
+            return;
+        }
+        if (admin.getPower() < 0 || admin.getPower() > 3) {
+            writer.write("false");
+            return;
+        }
+        adminService.put_power(admin);
+        writer.write("true");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/exportAdminInfo")
+    public List<Admin> export() throws Exception {
+        List<Admin> admins = adminService.exportAdminInfo();
+        return admins;
     }
 
 

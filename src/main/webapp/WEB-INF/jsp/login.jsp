@@ -64,11 +64,6 @@
     <div class="sk-rotating-plane"></div>
 </div>
 </form>
-<%--<c:if test="${msg != null}">
-    <script>
-        layer.msg("${msg}");
-    </script>
-</c:if>--%>
 <script src="${pageContext.request.contextPath}/js/particles.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/app.js"></script>
 <script type="text/javascript">

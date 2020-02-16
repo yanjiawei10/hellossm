@@ -18,6 +18,12 @@
     <context:component-scan base-package="cn.ppdxzz">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!--配置视图解析器-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
@@ -32,7 +38,6 @@
     <mvc:resources location="/layui_exts/" mapping="/layui_exts/**" />
     <mvc:resources location="/layer/" mapping="/layer/**"  />
     <!--开启SpringMVC的注解支持-->
-    <mvc:annotation-driven />
     <!--
 		支持AOP的注解支持，AOP底层使用代理技术
 		JDK动态代理，要求必须有接口

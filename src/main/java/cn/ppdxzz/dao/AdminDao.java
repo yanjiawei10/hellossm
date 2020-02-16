@@ -31,10 +31,18 @@ public interface AdminDao {
     Admin findAdminById(Integer id) throws Exception;
 
     /**
-     * 查询所有管理员信息
+     * 分页查询所有管理员信息
      */
     @Select("select * from admins")
     List<Admin> findAll() throws Exception;
+
+    /**
+     * 导出管理员信息
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from admins")
+    List<Admin> exportAdminInfo() throws Exception;
 
     /**
      * 根据id删除管理员信息
@@ -49,7 +57,7 @@ public interface AdminDao {
      * @param admin
      * @throws Exception
      */
-    @Update("update admins set username= #{username},password = #{password},name = #{name}, phone = #{phone}, power = #{power}, description = #{description} where id = #{id}")
+    @Update("update admins set username= #{username},name = #{name}, phone = #{phone}, description = #{description} where id = #{id}")
     void updateAdmin(Admin admin) throws Exception;
 
     /**
@@ -77,7 +85,15 @@ public interface AdminDao {
 
     //select * from admins where username like '%p%' or name like '%万%' or power like '%1%' or description like '%管理员%';
     //模糊搜索管理员信息，查询结果返回一个list集合
-    @Select("select * from admins where username like '%${tip}%' or name like '%${tip}%' or power like '%${tip}%' or description like '%${tip}%'")
-    List<Admin> serarchInfo(@Param(value="tip") String tip) throws Exception;
+    @Select("select * from admins where username like '%${keyword}%' or name like '%${keyword}%' or phone like '%${keyword}%' or power like '%${keyword}%' or description like '%${keyword}%' ")
+    List<Admin> serarchInfo(@Param(value="keyword") String keyword) throws Exception;
 
+    /**
+     * 管理员授权
+     * 授权等级 ： 0 1 2 3
+     * @param admin
+     * @throws Exception
+     */
+    @Update("update admins set power = #{power} where id = #{id} ")
+    void put_power(Admin admin) throws Exception;
 }

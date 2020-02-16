@@ -28,5 +28,15 @@ public interface AdminService {
 
     Boolean checkUserName(String u_name) throws Exception;
     //模糊搜索管理员信息，查询结果返回一个list集合
-    List<Admin> serarchInfo(int page,int size,String tip) throws Exception;
+    List<Admin> serarchInfo(int page,int size,String keyword) throws Exception;
+
+    //授权
+    void put_power(Admin admin) throws Exception;
+
+    /**
+     * 导出管理员信息
+     * @return
+     * @throws Exception
+     */
+    List<Admin> exportAdminInfo() throws Exception;
 }

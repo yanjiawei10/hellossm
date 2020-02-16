@@ -101,14 +101,24 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 管理员信息模糊查询
-     * @param tip
+     * @param keyword
      * @return
      * @throws Exception
      */
     @Override
-    public List<Admin> serarchInfo(int page,int size,String tip) throws Exception {
+    public List<Admin> serarchInfo(int page,int size,String keyword) throws Exception {
         PageHelper.startPage(page,size);
-        List<Admin> list = adminDao.serarchInfo(tip);
+        List<Admin> list = adminDao.serarchInfo(keyword);
         return list;
+    }
+
+    @Override
+    public void put_power(Admin admin) throws Exception {
+        adminDao.put_power(admin);
+    }
+
+    @Override
+    public List<Admin> exportAdminInfo() throws Exception {
+        return adminDao.exportAdminInfo();
     }
 }

@@ -26,12 +26,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label form-label">密码:</label>
-        <div class="col-sm-8">
-            <input type="text" value="${ad.password}" class="form-control" name="password" id="password">
-        </div>
-    </div>
-    <div class="form-group">
         <label class="col-sm-2 control-label form-label">姓名:</label>
         <div class="col-sm-8">
             <input type="text" readonly value="${ad.name}" class="form-control" name="name" id="name">
@@ -43,7 +37,7 @@
             <input type="text" value="${ad.phone}" class="form-control" name="phone" id="phone">
         </div>
     </div>
-    <div class="form-group">
+    <%--<div class="form-group">
         <label class="col-sm-2 control-label form-label">权限:</label>
         <div class="col-sm-8">
                 <c:if test="${ad.power == 0}">
@@ -69,7 +63,7 @@
                     </select>
                 </c:if>
         </div>
-    </div>
+    </div>--%>
     <div class="form-group">
         <label class="col-sm-2 control-label form-label">描述:</label>
         <div class="col-sm-8">
@@ -96,7 +90,6 @@
                 name:"notEmpty",
                 description:"notEmpty",
                 phone:"mobile",
-                password:"notEmpty"
             },
             /*submitFun里面为检验成功后要执行的方法*/
             submitFun:function(){
@@ -108,10 +101,8 @@
         //增加管理员，异步提交管理员表单
         var id = $("#id").val().trim();
         var username = $("#username").val().trim();
-        var password = $("#password").val().trim();
         var name = $("#name").val().trim();
         var phone = $("#phone").val().trim();
-        var power = $("#power").val().trim();
         var description = $("#description").val().trim();
         $.ajax({
             url: "${pageContext.request.contextPath}/editAdmin",//要请求的服务器url
@@ -120,10 +111,8 @@
             data: {
                 id:$("#id").val().trim(),
                 username:$("#username").val().trim(),
-                password:$("#password").val().trim(),
                 name: $("#name").val().trim(),
                 phone: $("#phone").val().trim(),
-                power: $("#power").val().trim(),
                 description: $("#description").val().trim(),
             },
             type: "POST", //请求方式为POST
