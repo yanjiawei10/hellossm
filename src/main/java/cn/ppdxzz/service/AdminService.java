@@ -2,6 +2,7 @@ package cn.ppdxzz.service;
 
 import cn.ppdxzz.domain.Admin;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -33,10 +34,7 @@ public interface AdminService {
     //授权
     void put_power(Admin admin) throws Exception;
 
-    /**
-     * 导出管理员信息
-     * @return
-     * @throws Exception
-     */
-    List<Admin> exportAdminInfo() throws Exception;
+    //返回一个携带所有管理员信息数据的InputStream输入流
+    InputStream getInputStream() throws Exception;
+
 }

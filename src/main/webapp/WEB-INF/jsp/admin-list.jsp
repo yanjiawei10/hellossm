@@ -21,7 +21,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/xadmin.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="${pageContext.request.contextPath}/layui_exts/excel.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -73,7 +72,7 @@
                 </div>
                 <xblock>
                     <a href="${pageContext.request.contextPath}/adminAdd" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>添加</a>
-                    <button id="fileDownLoad" class="layui-btn layui-btn-warm" lay-filter="toolbarDemo" lay-submit=""><i class="layui-icon">&#xe67c;</i>导出</button>
+                    <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
                     <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
                 </xblock>
                 <div class="layui-card-body">
@@ -184,85 +183,7 @@
 </div>
 
 <script>
-    layui.config({
-        base: 'layui_exts/',
-    }).extend({
-        excel: 'excel',
-    });
-
-    layui.use(['jquery', 'excel', 'form','layer','laydate'], function(){
-        var form = layui.form,
-            $ = layui.jquery,
-            laydate = layui.laydate;
-        var excel = parent.layui.excel;
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#start' //指定元素
-        });
-        form.render();
-
-        form.on('submit(toolbarDemo)', function(){
-
-            $.ajax({
-                url: '${pageContext.request.contextPath}/exportAdminInfo',
-                type: 'post',
-                dataType: 'json',
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    // 假如返回的 data 是需要导出的列表数据
-                    console.log(data);
-
-                    // 1. 如果需要调整顺序，请执行梳理函数
-                    var dt = excel.filterExportData(data, [
-                        'id'
-                        ,'username'
-                        ,'password'
-                        ,'name'
-                        ,'phone'
-                        ,'power'
-                        ,'description'
-                    ]);
-                    // 2. 数组头部新增表头
-                    dt.unshift({id: 'ID', username: '用户名', password: '密码', name: '姓名', phone: '手机号', power: '权限', description: '权限描述'});
-
-
-                    // 3.自定义导出Excel各字段的宽度
-                    var colConf = excel.makeColConfig({
-                        'A': 40,
-                        'B': 50,
-                        'C': 120,
-                        'D': 80,
-                        'F': 120
-                    }, 60);
-
-                    var time_start = Date.now();
-                    // 3. 执行导出函数，系统会弹出弹框
-                    excel.exportExcel({
-                        sheet1: dt
-                    }, '管理员导出数据.xlsx', 'xlsx', {
-                        extend: {
-                            '!cols': colConf
-                        }
-                    });
-                    var time_end = Date.now();
-
-                    var spent_time = (time_end - time_start) / 1000;
-                    layer.msg('导出数据共耗时'+spent_time+'s');
-                    //setTimeout(function () {window.location.href='/findAdmin';},2000);
-                },
-
-                error: function () {
-                    //console.log(data);
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/findAllAdmin';},2000);
-                }
-            });
-        });
-    });
-
-
-</script>
-<script>
+    //删除操作
     function member_del(obj,id,power,del_power){
         layer.confirm('确认要删除吗？',function(index){
             if (power == 0 || power < del_power){
@@ -282,6 +203,7 @@
             });
         });
     }
+    //授权操作
     function put_power(obj,id,power) {
         //验证是否拥有权限
         if (power == 0) {
@@ -319,8 +241,12 @@
                 layer.close(index);
             });
         });
-
-
+    }
+    //导出Excel操作
+    function exportInfo() {
+        layer.confirm('确定导出管理员数据吗？',function (index) {
+            location.href="${pageContext.request.contextPath}/exportAdminInfo";
+        });
     }
 </script>
 </body>

@@ -4,6 +4,7 @@ import cn.ppdxzz.domain.Admin;
 import cn.ppdxzz.service.AdminService;
 import cn.ppdxzz.utils.MD5Util;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -222,18 +225,19 @@ public class AdminController {
         writer.write("true");
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/exportAdminInfo")
-    public List<Admin> export() throws Exception {
-        List<Admin> admins = adminService.exportAdminInfo();
-        return admins;
+    /**
+     * 导出管理员信息
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping("/exportAdminInfo")
+    public void exportAdminInfo(HttpServletResponse response) throws Exception {
+        InputStream is = adminService.getInputStream();
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("contentDisposition", "attachment;filename=adminsInfo.xls");
+        ServletOutputStream outputStream = response.getOutputStream();
+        IOUtils.copy(is,outputStream);
+
     }
-
-
-
-
-
-
-
 
 }

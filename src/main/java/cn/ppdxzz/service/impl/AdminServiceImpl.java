@@ -2,12 +2,19 @@ package cn.ppdxzz.service.impl;
 
 import cn.ppdxzz.dao.AdminDao;
 import cn.ppdxzz.domain.Admin;
+import cn.ppdxzz.poi.WriteExcel;
 import cn.ppdxzz.service.AdminService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -117,8 +124,33 @@ public class AdminServiceImpl implements AdminService {
         adminDao.put_power(admin);
     }
 
+    /**
+     * 导出管理员信息
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<Admin> exportAdminInfo() throws Exception {
-        return adminDao.exportAdminInfo();
+    public InputStream getInputStream() throws Exception {
+        //Excel中的每列列名，依次对应数据库的字段
+        String[] title = new String[]{"ID","用户名","密码","姓名","手机号","权限","描述"};
+        List<Admin> admins = adminDao.exportAdminInfo();
+        List<Object[]>  dataList = new ArrayList<Object[]>();
+        for (int i = 0; i < admins.size(); i++) {
+            Object[] obj = new Object[7];
+            obj[0] = admins.get(i).getId();
+            obj[1] = admins.get(i).getUsername();
+            //可在此处设置密码是否MD5解密成普通可见密码
+            obj[2] = admins.get(i).getPassword();
+            obj[3] = admins.get(i).getName();
+            obj[4] = admins.get(i).getPhone();
+            obj[5] = admins.get(i).getPower();
+            obj[6] = admins.get(i).getDescription();
+            dataList.add(obj);
+        }
+        WriteExcel ex = new WriteExcel(title, dataList);
+        InputStream in;
+        in = ex.export();
+        return in;
     }
+
 }
