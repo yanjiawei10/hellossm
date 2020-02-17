@@ -9,15 +9,9 @@
 <html>
 <head>
     <title>欢迎页面</title>
-    <LINK rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
 </head>
 <body>
 <br><br><br>
-<div class="container">
-    <div class="jumbotron">
-        <h1>欢迎登录宿舍信息管理系统！</h1>
-    </div>
-</div>
+        &emsp;&emsp;&emsp;&emsp;&emsp;<h1>欢迎登录宿舍信息管理系统！</h1>
 </body>
 </html>

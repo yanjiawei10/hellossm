@@ -139,7 +139,6 @@ public class AdminServiceImpl implements AdminService {
             Object[] obj = new Object[7];
             obj[0] = admins.get(i).getId();
             obj[1] = admins.get(i).getUsername();
-            //可在此处设置密码是否MD5解密成普通可见密码
             obj[2] = admins.get(i).getPassword();
             obj[3] = admins.get(i).getName();
             obj[4] = admins.get(i).getPhone();

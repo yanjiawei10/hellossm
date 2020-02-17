@@ -31,6 +31,21 @@
     </div>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
+            <a href="javascript:;">我的消息</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd>
+                    <a onclick="xadmin.add_tab('消息','http://www.baidu.com')">消息</a>
+                </dd>
+                <dd>
+                    <a href="${pageContext.request.contextPath}">XXX</a>
+                </dd>
+                <dd>
+                    <a href="${pageContext.request.contextPath}">XXX</a>
+                </dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
             <a href="javascript:;">${sessionScope.adminInfo.name}</a>
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
@@ -43,7 +58,8 @@
             </dl>
         </li>
         <li class="layui-nav-item to-index">
-            <a href="/">前台首页</a></li>
+            <a href="/">前台首页</a>
+        </li>
     </ul>
 </div>
 <!-- 顶部结束 -->
@@ -60,7 +76,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('学生信息','welcome1.html')">
+                        <a onclick="xadmin.add_tab('学生信息','${pageContext.request.contextPath}/student/findAll?page=1&size=4')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>学生信息</cite></a>
                     </li>
@@ -166,30 +182,9 @@
                 <i class="layui-icon">&#xe68e;</i>我的桌面
             </li>
         </ul>
-        <div class="layui-tab-content">
+        <div class="layui-tab-content"><%--中间的空白面板--%>
             <div class="layui-tab-item layui-show o_div" >
-                <div class="layui-col-md6" style="padding: 30px;left: 60px;background-color: #F2F2F2;">
-                    <div class="layui-card">
-                        <div class="layui-card-header">个人信息
-                        </div>
-                        <div class="layui-card-body">
-                            <%--<div class="layui-form-label" style="text-align: left">你好</div>--%>
-                            用户名：${sessionScope.adminInfo.username}
-                        </div>
-                        <div class="layui-card-body">
-                            密码：${sessionScope.adminInfo.password}
-                        </div>
-                        <div class="layui-card-body">
-                            电话：${sessionScope.adminInfo.phone}
-                        </div>
-                        <div class="layui-card-body">
-                            权限开启：${sessionScope.adminInfo.power}
-                        </div>
-                        <div class="layui-card-body">
-                            描述：${sessionScope.adminInfo.description}
-                        </div>
-                    </div>
-                </div>
+                <jsp:include page="welcome.jsp"></jsp:include>
             </div>
         </div>
         <div id="tab_show"></div>

@@ -72,7 +72,7 @@
                 </div>
                 <xblock>
                     <a href="${pageContext.request.contextPath}/adminAdd" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>添加</a>
-                    <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
+                    <a onclick="exportInfo(${sessionScope.adminInfo.power})" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
                     <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
                 </xblock>
                 <div class="layui-card-body">
@@ -243,9 +243,14 @@
         });
     }
     //导出Excel操作
-    function exportInfo() {
+    function exportInfo(power) {
+        if (power < 2) {
+            layer.msg('对不起，您权限不足！');
+            return false;
+        }
         layer.confirm('确定导出管理员数据吗？',function (index) {
             location.href="${pageContext.request.contextPath}/exportAdminInfo";
+            layer.close(index);
         });
     }
 </script>

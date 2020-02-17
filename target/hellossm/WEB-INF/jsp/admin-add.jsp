@@ -60,8 +60,8 @@
 </div>
 <div class="row">
     <div class="form-group btn-group col-md-offset-5">
-        <button class="btn btn-success" onclick="toValidate()">确认添加</button>
-        <a type="button" class="btn btn-primary" href="${pageContext.request.contextPath}/findAllAdmin">返回列表</a>
+        <button class="btn btn-primary" onclick="toValidate()">确认添加</button>
+        <a type="button" class="btn btn-default" href="${pageContext.request.contextPath}/findAllAdmin">返回列表</a>
     </div>
 </div>
 

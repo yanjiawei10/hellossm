@@ -72,6 +72,7 @@ public class AdminController {
     public String Login() {
         return "login";
     }
+
     /**
      * 退出登录
     n */
