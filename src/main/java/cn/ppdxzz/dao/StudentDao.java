@@ -56,7 +56,7 @@ public interface StudentDao {
     void delete(String sno) throws Exception;
 
     /**
-     * 修改学生信息
+     * 根据id修改学生信息
      * @param student
      * @throws Exception
      */

@@ -142,12 +142,20 @@
                     <li>
                         <a onclick="xadmin.add_tab('访客信息','unicode.html')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>访客信息</cite></a>
+                            <cite>访客信息</cite>
+                        </a>
                     </li>
                     <li>
-                        <a onclick="xadmin.open('来访登记','unicode.html')">
+                        <a onclick="xadmin.open('来访登记（手机端）','unicode.html')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>来访登记</cite></a>
+                            <cite>来访登记（手机端）</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.open('访客日志','unicode.html')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>访客日志</cite>
+                        </a>
                     </li>
                 </ul>
             </li>

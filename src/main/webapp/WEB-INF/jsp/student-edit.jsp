@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: user
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/layer/layer.js"></script>
 </head>
 <body>
 <form>
@@ -19,18 +21,25 @@
         <tbody>
         <tr>
             <td>
+                <input type="hidden" id="id" value="${stu.id}">
                 <label for="name">姓名</label>
             </td>
             <td>
-                <input type="text" readonly class="form-control" value="peichen" id="name" name="name" required>
+                <input type="text" readonly class="form-control" value="${stu.name}" id="name" name="name" required>
             </td>
             <td>
                 <label for="sex">性别</label>
             </td>
             <td>
                 <select class="form-control" name="sex" id="sex">
-                    <option value="男" selected>男</option>
-                    <option value="女">女</option>
+                    <c:if test="${stu.sex == '男'}">
+                        <option value="男" selected>男</option>
+                        <option value="女">女</option>
+                    </c:if>
+                    <c:if test="${stu.sex == '女'}">
+                        <option value="男">男</option>
+                        <option value="女" selected>女</option>
+                    </c:if>
                 </select>
             </td>
         </tr>
@@ -39,43 +48,118 @@
                 <label for="sno">学号</label>
             </td>
             <td>
-                <input type="text" name="sno" class="form-control" id="sno" aria-describedby="textHelp" required>
+                <c:if test="${sessionScope.adminInfo.power >= 3}">
+                    <input type="text" value="${stu.sno}" name="sno" class="form-control" id="sno" aria-describedby="textHelp" required>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power < 3}">
+                    <input type="text" readonly value="${stu.sno}" name="sno" class="form-control" id="sno" aria-describedby="textHelp" required>
+                </c:if>
+
             </td>
             <td>
-                <label for="class">班级</label>
+                <label for="stu_class">班级</label>
             </td>
             <td>
-                <input type="text" name="class" class="form-control" id="class" required>
+                <c:if test="${sessionScope.adminInfo.power < 2}">
+                    <input type="text" readonly value="${stu.stu_class}" name="stu_class" class="form-control" id="stu_class" required>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power >= 2}">
+                    <input type="text" value="${stu.stu_class}" name="stu_class" class="form-control" id="stu_class" required>
+                </c:if>
             </td>
         </tr>
         <tr>
             <td><label for="phone">联系方式</label></td>
             <td>
-                <input type="text" name="phone" class="form-control" id="phone" required>
+                <input type="text" value="${stu.phone}" name="phone" class="form-control" id="phone" required>
             </td>
             <td><label for="place">家庭住址</label></td>
             <td>
-                <input type="text" name="place" class="form-control" id="place" required>
+                <input type="text" value="${stu.place}" name="place" class="form-control" id="place" required>
             </td>
         </tr>
         <tr>
             <td><label for="dorm_id">宿舍号</label></td>
             <td>
-                <input type="text" name="dorm_id" class="form-control" id="dorm_id" required>
+                <c:if test="${sessionScope.adminInfo.power < 2}">
+                    <input type="text" readonly value="${stu.dorm_id}" name="dorm_id" class="form-control" id="dorm_id" required>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power >= 2}">
+                    <input type="text" value="${stu.dorm_id}" name="dorm_id" class="form-control" id="dorm_id" required>
+                </c:if>
             </td>
             <td><label for="teacher">育人导师</label></td>
             <td>
-                <input type="text" name="teacher" class="form-control" id="teacher" required>
+                <c:if test="${sessionScope.adminInfo.power >= 1}">
+                    <input type="text" value="${stu.teacher}" name="teacher" class="form-control" id="teacher" required>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power < 1}">
+                    <input type="text" readonly value="${stu.teacher}" name="teacher" class="form-control" id="teacher" required>
+                </c:if>
+
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <button type="submit" id="addAdmin" class="btn btn-primary">确认修改</button>
-                <a type="button" class="btn btn-default">返回列表</a>
+                <button type="button" id="edit-btn" class="btn btn-primary">确认修改</button>
+                <a type="button" class="btn btn-default" href="${pageContext.request.contextPath}/student/findAll?page=1&size=4">返回列表</a>
             </td>
         </tr>
         </tbody>
     </table>
 </form>
+<script>
+    $("#edit-btn").click(function () {
+        var id = $("#id").val().trim();
+        var name = $("#name").val().trim();
+        var sex = $("#sex").val().trim();
+        var sno = $("#sno").val().trim();
+        var stu_class = $("#stu_class").val().trim();
+        var phone = $("#phone").val().trim();
+        var place = $("#place").val().trim();
+        var dorm_id = $("#dorm_id").val().trim();
+        var teacher = $("#teacher").val().trim();
+        if (name == 0 || sex == 0 || sno == 0 || stu_class == 0 || phone == 0 || place == 0 || dorm_id == 0 || teacher == 0) {
+            layer.msg('字段不能为空');
+            return false;
+        }
+        layer.confirm('确定要修改吗',function (index) {
+            if (${sessionScope.adminInfo.power < 1}) {
+                layer.msg('对不起，您没有权限');
+                layer.close(index);
+                return false;
+            }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/student/update",//要请求的服务器url
+            //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
+            //data:{method:"ajaxTest",val:value},
+            data: {
+                id:id,
+                name:name,
+                sex:sex,
+                sno: sno,
+                stu_class:stu_class,
+                phone: phone,
+                place: place,
+                dorm_id:dorm_id,
+                teacher:teacher
+            },
+            type: "POST", //请求方式为POST
+            dataType: "json",
+            success:function(result){  //这个方法会在服务器执行成功时被调用 ，参数data就是服务器返回的值(现在是json类型)
+                //alert(result);
+                if(result){
+                    layer.msg('修改成功');
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                }else {
+                    layer.msg('修改失败，请联系管理员');
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                }
+            }
+        });
+        });
+    });
+</script>
 </body>
 </html>

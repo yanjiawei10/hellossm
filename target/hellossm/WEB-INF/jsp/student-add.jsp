@@ -91,7 +91,7 @@
         </tr>
         <tr>
             <td colspan="4">
-                <button type="submit" id="add-student" class="btn btn-primary">确认修改</button>
+                <button type="button" id="add-student" class="btn btn-primary">确认修改</button>
                 <a type="button" href="${pageContext.request.contextPath}/student/findAll" class="btn btn-default">返回列表</a>
             </td>
         </tr>
@@ -99,19 +99,66 @@
     </table>
 </form>
 <script>
+    $(function () {
+        //ajax校验学号已被注册
+        $("#sno").change(function () {
+            //取sno的值
+            var sno = $(this).val();
+            //ajax异步请求
+            $.get("${pageContext.request.contextPath}/student/isExist",{"sno":sno},function (date) {
+                //$(".error").html(msg);
+                if (date) {
+                    layer.msg('学号已被注册，请重新输入！');
+                    return false;
+                }
+            });
+        });
+    });
     $("#add-student").click(function () {
-        if ($("#name").val().trim() == 0 || $("#sex").val().trim() == 0 || $("#sno").val().trim() == 0
-            || $("#stu_class").val().trim() == 0 || $("#phone").val().trim() == 0 || $("#place").val().trim() == 0
-            || $("#dorm3").val().trim() == 0 || $("#teacher").val().trim() == 0) {
+        var name = $("#name").val().trim();
+        var sex = $("#sex").val().trim();
+        var sno = $("#sno").val().trim();
+        var stu_class = $("#stu_class").val().trim();
+        var phone = $("#phone").val().trim();
+        var place = $("#place").val().trim();
+        var dorm3 = $("#dorm3").val().trim();
+        var teacher = $("#teacher").val().trim();
+
+        if (name == 0 || sex == 0 || sno == 0 || stu_class == 0 || phone == 0 || place == 0 || dorm3 == 0 || teacher == 0) {
             layer.msg('字段不能为空');
             return false;
         }
-        
         var d1 = $("#dorm1").val();
         var d2 = $("#dorm2").val();
-        var d3 = $("#dorm3").val().trim();
-        var dorm_id = d1+""+d2+""+d3;
-        alert(dorm_id);
+        var dorm_id = d1+""+d2+""+dorm3;
+        //alert(dorm_id);
+        $.ajax({
+            url: "${pageContext.request.contextPath}/student/add",//要请求的服务器url
+            //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
+            //data:{method:"ajaxTest",val:value},
+            data: {
+                name:name,
+                sex:sex,
+                sno: sno,
+                stu_class:stu_class,
+                phone: phone,
+                place: place,
+                dorm_id:dorm_id,
+                teacher:teacher
+            },
+            type: "POST", //请求方式为POST
+            dataType: "json",
+            success:function(result){  //这个方法会在服务器执行成功时被调用 ，参数data就是服务器返回的值(现在是json类型)
+                //alert(result);
+                if(result){
+                    layer.msg('添加成功！');
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                }else {
+                    layer.msg('添加失败，请联系管理员');
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                }
+            }
+        });
     });
 </script>
 </body>

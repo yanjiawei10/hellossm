@@ -104,6 +104,13 @@
         var name = $("#name").val().trim();
         var phone = $("#phone").val().trim();
         var description = $("#description").val().trim();
+        layer.confirm('确定要修改吗',function (index) {
+            if (${sessionScope.adminInfo.power < 2}) {//非管理员不能修改管理员信息
+                layer.msg('对不起，您权限不足');
+                layer.close(index);
+                return false;
+            }
+
         $.ajax({
             url: "${pageContext.request.contextPath}/editAdmin",//要请求的服务器url
             //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
@@ -126,6 +133,7 @@
                     setTimeout(function () {window.location.href='${pageContext.request.contextPath}/findAllAdmin';},2000);
                 }
             }
+        });
         });
     }
 </script>

@@ -71,6 +71,7 @@
                     </form>
                 </div>
                 <xblock>
+                    <a href="${pageContext.request.contextPath}/student/addStudent" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>添加</a>
                     <c:if test="${sessionScope.adminInfo.power > 1 }">
                     <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
                     </c:if>
@@ -110,11 +111,8 @@
                             <td>${student.teacher}</td>
                             <c:if test="${sessionScope.adminInfo.power > 1}">
                             <td class="td-manage">
-                                <a title="编辑" href="${pageContext.request.contextPath}">
+                                <a title="编辑" href="${pageContext.request.contextPath}/student/editStudent?sno=${student.sno}">
                                     <i class="layui-icon">&#xe642;</i>
-                                </a>
-                                <a title="注册" onclick="" href="${pageContext.request.contextPath}/student/addStudent">
-                                    <i class="layui-icon">&#xe654;</i>
                                 </a>
                                 <a title="删除" onclick="member_del(this,${student.sno},${sessionScope.adminInfo.power})" href="javascript:;">
                                     <i class="layui-icon">&#xe640;</i>

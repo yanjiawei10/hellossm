@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: user
-  Date: 2020/2/10
-  Time: 21:45
+  Date: 2020/2/18
+  Time: 15:56
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -30,15 +30,15 @@
             //获取下拉框的值
             var pageSize = $("#changePageSize").val();
             //向服务器发送请求，改变每页显示条数
-            location.href = "${pageContext.request.contextPath}/student/findAll?page=1&size="+ pageSize;
+            location.href = "${pageContext.request.contextPath}/visitor/findAll?page=1&size="+ pageSize;
         }
         $("#serarch_btn").click(function () {
             var keyword = $("#keyword").val();
-            location.href="${pageContext.request.contextPath}/student/findAll?page=1&size=4&keyword="+keyword;
+            location.href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=4&keyword="+keyword;
         });
         $("#refresh").click(function () {
             $("#myform").reset();
-            location.href="${pageContext.request.contextPath}/student/findAll?page=1&size=4";
+            location.href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=4";
         });
     </script>
 </head>
@@ -66,14 +66,13 @@
                             <button class="layui-btn"  id="serarch_btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <div class="layui-inline layui-show-xs-block x-right">
-                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/student/findAll?page=1&size=4"><i class="layui-icon">&#xe669;</i></a>
+                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=4"><i class="layui-icon">&#xe669;</i></a>
                         </div>
                     </form>
                 </div>
                 <xblock>
-                    <a href="${pageContext.request.contextPath}/student/addStudent" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>添加</a>
-                    <c:if test="${sessionScope.adminInfo.power > 1 }">
-                    <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
+                    <c:if test="${sessionScope.adminInfo.power > 2 }">
+                        <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
                     </c:if>
                     <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
                 </xblock>
@@ -81,43 +80,44 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr style="text-align: center">
-                            <th style="text-align: center">ID</th>
+                            <c:if test="${sessionScope.adminInfo.power > 3 }">
+                                <th style="text-align: center">ID</th>
+                            </c:if>
                             <th style="text-align: center">姓名</th>
-                            <th style="text-align: center">性别</th>
                             <th style="text-align: center">学号</th>
-                            <th style="text-align: center">班级</th>
                             <th style="text-align: center">联系方式</th>
-                            <th style="text-align: center">家庭住址</th>
-                            <th style="text-align: center">宿舍号</th>
-                            <th style="text-align: center">育人导师</th>
-                            <c:if test="${sessionScope.adminInfo.power > 1}">
+                            <th style="text-align: center">访问地址</th>
+                            <th style="text-align: center">来访时间</th>
+                            <th style="text-align: center">离开时间</th>
+                            <th style="text-align: center">到访原因</th>
+                            <c:if test="${sessionScope.adminInfo.power > 2}">
                             <th style="text-align: center">操作</th>
                             </c:if>
                         </thead>
                         <tbody>
-                        <%
-                            int j = 1;
-                        %>
-                        <c:forEach items="${pageInfo.list}" var="student">
+                        <c:forEach items="${pageInfo.list}" var="visitor">
                         <tr id="light" style="text-align: center">
-                            <td><%=j++%></td>
-                            <td>${student.name}</td>
-                            <td>${student.sex}</td>
-                            <td>${student.sno}</td>
-                            <td>${student.stu_class}</td>
-                            <td>${student.phone}</td>
-                            <td>${student.place}</td>
-                            <td>${student.dorm_id}</td>
-                            <td>${student.teacher}</td>
-                            <c:if test="${sessionScope.adminInfo.power > 1}">
-                            <td class="td-manage">
-                                <a title="编辑" href="${pageContext.request.contextPath}/student/editStudent?sno=${student.sno}">
-                                    <i class="layui-icon">&#xe642;</i>
-                                </a>
-                                <a title="删除" onclick="member_del(this,${student.sno},${sessionScope.adminInfo.power})" href="javascript:;">
-                                    <i class="layui-icon">&#xe640;</i>
-                                </a>
-                            </td>
+                            <c:if test="${sessionScope.adminInfo.power > 3 }">
+                            <td>${visitor.id}</td>
+                            </c:if>
+                            <td>${visitor.name}</td>
+                            <td>${visitor.sno}</td>
+                            <td>${visitor.phone}</td>
+                            <td>${visitor.place}</td>
+                            <td>${visitor.begin_date}</td>
+                            <c:if test="${visitor.end_date == null || visitor.end_date == ''}">
+                                <td>尚未离开</td>
+                            </c:if>
+                            <c:if test="${visitor.end_date != ''}">
+                                <td>${visitor.end_date}</td>
+                            </c:if>
+                            <td>${visitor.visit_result}</td>
+                            <c:if test="${sessionScope.adminInfo.power > 2}">
+                                <td class="td-manage">
+                                    <a title="注销访客" onclick="update(this,${visitor.id})">
+                                        <i class="layui-icon">&#xe642;</i>
+                                    </a>
+                                </td>
                             </c:if>
                             </c:forEach>
                         </tr>
@@ -167,22 +167,22 @@
                 <div class="layui-card-body x-right" style="height: min-content">
                     <div class="page">
                         <div>
-                            <a class="next" href="${pageContext.request.contextPath}/student/findAll?page=1&size=${pageInfo.pageSize}&keyword=${param.keyword}">首页</a>
+                            <a class="next" href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=${pageInfo.pageSize}&keyword=${param.keyword}">首页</a>
                             <c:if test="${pageInfo.pageNum > 1}">
-                                <a class="prev" href="${pageContext.request.contextPath}/student/findAll?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">上一页</a>
+                                <a class="prev" href="${pageContext.request.contextPath}/visitor/findAll?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">上一页</a>
                             </c:if>
                             <c:forEach var="i" begin="${begin}" end="${end}" step="1">
                                 <c:if test="${pageInfo.pageNum == i}">
                                     <span class="current">${i}</span>
                                 </c:if>
                                 <c:if test="${pageInfo.pageNum != i}">
-                                    <a class="num" href="${pageContext.request.contextPath}/student/findAll?page=${i}&size=${pageInfo.pageSize}&keyword=${param.keyword}">${i}</a>
+                                    <a class="num" href="${pageContext.request.contextPath}/visitor/findAll?page=${i}&size=${pageInfo.pageSize}&keyword=${param.keyword}">${i}</a>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${pageInfo.pageNum < pageInfo.pages}">
-                                <a class="next" href="${pageContext.request.contextPath}/student/findAll?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">下一页</a>
+                                <a class="next" href="${pageContext.request.contextPath}/visitor/findAll?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">下一页</a>
                             </c:if>
-                            <a class="next" href="${pageContext.request.contextPath}/student/findAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&keyword=${param.keyword}">尾页</a>
+                            <a class="next" href="${pageContext.request.contextPath}/visitor/findAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&keyword=${param.keyword}">尾页</a>
                         </div>
                     </div>
                 </div>
@@ -192,30 +192,20 @@
 </div>
 
 <script>
-    //删除操作
-    function member_del(obj,sno,power){
-        layer.confirm('确认要删除吗？',function(index){
-            if (power < 1){
-                layer.msg('对不起，您没有权限！');
-                return false;
+    function update(obj,id) {
+        $.get("${pageContext.request.contextPath}/visitor/updateStatus",{"id":id},function (data) {
+            if (data) {
+                layer.msg('注销成功');
+            }else {
+                layer.msg('系统繁忙，请联系系统管理员');
             }
-            //发异步删除数据
-            $.get("${pageContext.request.contextPath}/student/delete",{"sno":sno},function (data) {
-                if(data){
-                    layer.msg('删除成功!',{icon:1,time:2000});
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
-
-                }else {
-                    layer.msg('删除失败!',{icon:1,time:2000});
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
-                }
-            });
         });
+
     }
     //导出Excel操作
     function exportInfo() {
-        layer.confirm('确定导出所有学生数据吗？',function (index) {
-            location.href="${pageContext.request.contextPath}/student/export";
+        layer.confirm('确定导出所有访客数据吗？',function (index) {
+            location.href="${pageContext.request.contextPath}/visitor/export";
             layer.close(index);
         });
     }
