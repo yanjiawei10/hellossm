@@ -85,9 +85,9 @@
                             <th style="text-align: center">学号</th>
                             <th style="text-align: center">班级</th>
                             <th style="text-align: center">联系方式</th>
-                            <th style="text-align: center">家庭住址</th>
                             <th style="text-align: center">宿舍号</th>
                             <th style="text-align: center">育人导师</th>
+                            <th style="text-align: center">状态</th>
                             <c:if test="${sessionScope.adminInfo.power > 1}">
                             <th style="text-align: center">操作</th>
                             </c:if>
@@ -104,9 +104,14 @@
                             <td>${student.sno}</td>
                             <td>${student.stu_class}</td>
                             <td>${student.phone}</td>
-                            <td>${student.place}</td>
                             <td>${student.dorm_id}</td>
                             <td>${student.teacher}</td>
+                            <c:if test="${student.status == 1}">
+                                <td><button class="layui-btn layui-btn-normal layui-btn-sm">已激活</button></td>
+                            </c:if>
+                            <c:if test="${student.status == 0}">
+                                <td><button class="layui-btn layui-btn-danger layui-btn-sm">禁用</button></td>
+                            </c:if>
                             <c:if test="${sessionScope.adminInfo.power > 1}">
                             <td class="td-manage">
                                 <a title="编辑" href="${pageContext.request.contextPath}/student/editStudent?sno=${student.sno}">

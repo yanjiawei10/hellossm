@@ -44,7 +44,7 @@ public interface StudentDao {
      * @param student
      * @throws Exception
      */
-    @Insert("insert into students(name, sex, sno, stu_class, phone, place, dorm_id, teacher) values(#{name},#{sex},#{sno},#{stu_class},#{phone},#{place},#{dorm_id},#{teacher})")
+    @Insert("insert into students(name, sex, sno, stu_class, phone, place, dorm_id, teacher, status) values(#{name},#{sex},#{sno},#{stu_class},#{phone},#{place},#{dorm_id},#{teacher},#{status})")
     void add(Student student) throws Exception;
 
     /**
@@ -60,7 +60,7 @@ public interface StudentDao {
      * @param student
      * @throws Exception
      */
-    @Update("update students set name = #{name},sex = #{sex},sno = #{sno},stu_class = #{stu_class},phone = #{phone},place = #{place},dorm_id = #{dorm_id},teacher = #{teacher} where id = #{id}")
+    @Update("update students set name = #{name},sex = #{sex},sno = #{sno},stu_class = #{stu_class},phone = #{phone},place = #{place},dorm_id = #{dorm_id},teacher = #{teacher},status = #{status} where id = #{id}")
     void update(Student student) throws Exception;
 
 

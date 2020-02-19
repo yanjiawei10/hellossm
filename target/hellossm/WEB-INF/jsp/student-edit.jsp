@@ -100,6 +100,24 @@
             </td>
         </tr>
         <tr>
+            <td><label for="status">状态</label></td>
+            <td>
+                <c:if test="${stu.status == 0}">
+                    <select class="form-control" name="status" id="status">
+                        <option value="0" selected>禁用</option>
+                        <option value="1">激活</option>
+                    </select>
+                </c:if>
+                <c:if test="${stu.status == 1}">
+                    <select class="form-control" name="status" id="status">
+                        <option value="0">禁用</option>
+                        <option value="1" selected>激活</option>
+                    </select>
+                </c:if>
+
+            </td>
+        </tr>
+        <tr>
             <td colspan="4">
                 <button type="button" id="edit-btn" class="btn btn-primary">确认修改</button>
                 <a type="button" class="btn btn-default" href="${pageContext.request.contextPath}/student/findAll?page=1&size=4">返回列表</a>
@@ -119,6 +137,7 @@
         var place = $("#place").val().trim();
         var dorm_id = $("#dorm_id").val().trim();
         var teacher = $("#teacher").val().trim();
+        var status = $("#status").val().trim();
         if (name == 0 || sex == 0 || sno == 0 || stu_class == 0 || phone == 0 || place == 0 || dorm_id == 0 || teacher == 0) {
             layer.msg('字段不能为空');
             return false;
@@ -143,7 +162,8 @@
                 phone: phone,
                 place: place,
                 dorm_id:dorm_id,
-                teacher:teacher
+                teacher:teacher,
+                status:status
             },
             type: "POST", //请求方式为POST
             dataType: "json",

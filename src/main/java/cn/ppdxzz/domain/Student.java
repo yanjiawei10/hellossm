@@ -18,11 +18,12 @@ public class Student implements Serializable {
     private String place;//家庭住址
     private String dorm_id;//宿舍号
     private String teacher;//育人导师
+    private Integer status;//学生状态是否激活：1 激活 0 禁用
 
     public Student() {
     }
 
-    public Student(Integer id, String name, String sex, String sno, String stu_class, String phone, String place, String dorm_id, String teacher) {
+    public Student(Integer id, String name, String sex, String sno, String stu_class, String phone, String place, String dorm_id, String teacher, Integer status) {
         this.id = id;
         this.name = name;
         this.sex = sex;
@@ -32,6 +33,7 @@ public class Student implements Serializable {
         this.place = place;
         this.dorm_id = dorm_id;
         this.teacher = teacher;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -106,6 +108,14 @@ public class Student implements Serializable {
         this.teacher = teacher;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -118,6 +128,7 @@ public class Student implements Serializable {
                 ", place='" + place + '\'' +
                 ", dorm_id='" + dorm_id + '\'' +
                 ", teacher='" + teacher + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

@@ -7,29 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8033210d-c341-4f39-a328-95fe94016f00" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/controller/VisitorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/controller/VisitorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/admin-add.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/admin-add.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/admin-edit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/admin-edit.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/admin-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/admin-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/main.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/regist_visitor.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/regist_visitor.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/dao/StudentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/dao/StudentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/domain/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/domain/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/ppdxzz/service/impl/StudentServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/student-add.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/student-add.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/student-edit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/student-edit.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/student-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/student-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/visitor-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/visitor-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/visitor-success.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/visitor-success.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/ppdxzz/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/ppdxzz/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/ppdxzz/utils/LocalIp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/classes/cn/ppdxzz/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/classes/cn/ppdxzz/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/admin-add.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/admin-add.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/admin-edit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/admin-edit.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/admin-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/admin-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/main.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/student-add.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/student-add.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/student-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/student-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-cli/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/visitor-success.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/hellossm/WEB-INF/jsp/visitor-success.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,11 +230,6 @@
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="Finished" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              </path>
             </expand>
             <select />
           </treeState>
@@ -289,7 +271,7 @@
       <workItem from="1582001026668" duration="32026000" />
       <workItem from="1582077952665" duration="5952000" />
       <workItem from="1582093960673" duration="5496000" />
-      <workItem from="1582099866858" duration="2360000" />
+      <workItem from="1582099866858" duration="5125000" />
     </task>
     <servers />
   </component>
@@ -309,10 +291,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="137" y="23" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1581485477637" />
-    <state x="488" y="84" key="#com.intellij.ide.util.MemberChooser" timestamp="1582031252663">
+    <state x="488" y="84" key="#com.intellij.ide.util.MemberChooser" timestamp="1582102994586">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="84" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1582031252663" />
+    <state x="488" y="84" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1582102994586" />
     <state x="435" y="110" key="FileChooserDialogImpl" timestamp="1582098741224">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

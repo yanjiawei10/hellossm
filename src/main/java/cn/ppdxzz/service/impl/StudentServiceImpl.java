@@ -69,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
     public boolean add(Student student) throws Exception {
         if (student == null || student.getName() == null || student.getSex() == null || student.getSno() == null
                 || student.getPhone() == null || student.getPlace() == null || student.getDorm_id() == null
-                || student.getTeacher() == null || student.getStu_class() == null)  {
+                || student.getTeacher() == null || student.getStu_class() == null || student.getStatus() == null)  {
             return false;
         }
         studentDao.add(student);
@@ -104,11 +104,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public InputStream getInputStream() throws Exception {
         //Excel中的每列列名，依次对应数据库的字段
-        String[] title = new String[]{"姓名","性别","学号","班级","联系方式","家庭住址","宿舍号","育人导师"};
+        String[] title = new String[]{"姓名","性别","学号","班级","联系方式","家庭住址","宿舍号","育人导师","状态"};
         List<Student> students = studentDao.findAll();
         List<Object[]> datalist = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
-            Object[] obj = new Object[8];
+            Object[] obj = new Object[9];
             obj[0] = students.get(i).getName();
             obj[1] = students.get(i).getSex();
             obj[2] = students.get(i).getSno();
@@ -117,6 +117,7 @@ public class StudentServiceImpl implements StudentService {
             obj[5] = students.get(i).getPlace();
             obj[6] = students.get(i).getDorm_id();
             obj[7] = students.get(i).getTeacher();
+            obj[8] = students.get(i).getStatus();
             datalist.add(obj);
         }
         WriteExcel excel = new WriteExcel(title,datalist);
