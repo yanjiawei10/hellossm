@@ -140,13 +140,13 @@
                     <i class="iconfont nav_right">&#xe6f5;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('访客信息','unicode.html')">
+                        <a onclick="xadmin.add_tab('访客信息','${pageContext.request.contextPath}/visitor/findAll')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>访客信息</cite>
                         </a>
                     </li>
                     <li>
-                        <a onclick="xadmin.open('来访登记（手机端）','unicode.html')">
+                        <a onclick="tip()" href="javascript:;">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>来访登记（手机端）</cite>
                         </a>
@@ -205,4 +205,10 @@
 <!-- 底部开始 -->
 <!-- 底部结束 -->
 </body>
+<script>
+    function tip() {
+        layer.msg('目前暂不支持网页端登记');
+        return false;
+    }
+</script>
 </html>

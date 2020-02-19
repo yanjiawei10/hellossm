@@ -218,7 +218,7 @@ public class AdminController {
             writer.write("false");
             return;
         }
-        if (admin.getPower() < 0 || admin.getPower() > 3) {
+        if (admin.getPower() < 0 || admin.getPower() > 4) {
             writer.write("false");
             return;
         }

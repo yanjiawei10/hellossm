@@ -106,7 +106,7 @@
                                 <a title="授权" onclick="put_power(this,${admin.id},${sessionScope.adminInfo.power})" href="javascript:;">
                                     <i class="layui-icon">&#xe672;</i>
                                 </a>
-                                <a title="删除" onclick="member_del(this,${admin.id},${sessionScope.adminInfo.power},${admin.power})" href="javascript:;">
+                                <a title="删除" onclick="member_del(this,${admin.id},${sessionScope.adminInfo.power})" href="javascript:;">
                                     <i class="layui-icon">&#xe640;</i>
                                 </a>
                             </td>
@@ -184,9 +184,9 @@
 
 <script>
     //删除操作
-    function member_del(obj,id,power,del_power){
+    function member_del(obj,id,power){
         layer.confirm('确认要删除吗？',function(index){
-            if (power == 0 || power < del_power){
+            if ( power < 3){
                 layer.msg('对不起，您没有权限！');
                 return false;
             }
@@ -206,7 +206,7 @@
     //授权操作
     function put_power(obj,id,power) {
         //验证是否拥有权限
-        if (power == 0) {
+        if (power < 3) {
             layer.msg('对不起，您没有权限！');
             return false;
         }
@@ -219,7 +219,7 @@
             }
             layer.close(index);
             layer.prompt({title: '输入权限级别，并确认授权', formType: 1}, function(level, index){
-                if (level < 0 || level > 3) {
+                if (level < 0 || level > 4) {
                     layer.msg('授权等级输入有误，请重新输入！')
                     return false;
                 }
@@ -244,7 +244,7 @@
     }
     //导出Excel操作
     function exportInfo(power) {
-        if (power < 2) {
+        if (power < 3) {
             layer.msg('对不起，您权限不足！');
             return false;
         }

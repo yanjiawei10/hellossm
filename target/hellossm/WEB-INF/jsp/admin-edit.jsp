@@ -105,7 +105,7 @@
         var phone = $("#phone").val().trim();
         var description = $("#description").val().trim();
         layer.confirm('确定要修改吗',function (index) {
-            if (${sessionScope.adminInfo.power < 2}) {//非管理员不能修改管理员信息
+            if (${sessionScope.adminInfo.power < 3}) {//非超级管理员不能修改管理员信息
                 layer.msg('对不起，您权限不足');
                 layer.close(index);
                 return false;

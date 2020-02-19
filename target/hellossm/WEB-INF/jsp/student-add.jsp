@@ -128,6 +128,10 @@
             layer.msg('字段不能为空');
             return false;
         }
+        if (${sessionScope.adminInfo.power < 1}) {
+            layer.msg('对不起，您权限不足');
+            return false;
+        }
         var d1 = $("#dorm1").val();
         var d2 = $("#dorm2").val();
         var dorm_id = d1+""+d2+""+dorm3;

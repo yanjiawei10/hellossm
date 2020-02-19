@@ -72,9 +72,7 @@
                 </div>
                 <xblock>
                     <a href="${pageContext.request.contextPath}/student/addStudent" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>添加</a>
-                    <c:if test="${sessionScope.adminInfo.power > 1 }">
                     <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
-                    </c:if>
                     <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
                 </xblock>
                 <div class="layui-card-body">
@@ -195,7 +193,7 @@
     //删除操作
     function member_del(obj,sno,power){
         layer.confirm('确认要删除吗？',function(index){
-            if (power < 1){
+            if (power < 3){
                 layer.msg('对不起，您没有权限！');
                 return false;
             }
@@ -214,6 +212,10 @@
     }
     //导出Excel操作
     function exportInfo() {
+        if (${sessionScope.adminInfo.power < 3}) {
+            layer.msg('对不起，您权限不足');
+            return false;
+        }
         layer.confirm('确定导出所有学生数据吗？',function (index) {
             location.href="${pageContext.request.contextPath}/student/export";
             layer.close(index);

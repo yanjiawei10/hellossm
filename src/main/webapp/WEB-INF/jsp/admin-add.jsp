@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: user
@@ -45,9 +46,19 @@
         <label class="col-sm-2 control-label form-label">权限:</label>
         <div class="col-sm-8">
             <select class="form-control" name="power" id="power">
-                <option value="0" selected>未授权</option>
-                <option value="1">授权</option>
-                <option value="2">超级权限</option>
+                <option value="0" selected>访客</option>
+                <c:if test="${sessionScope.adminInfo.power > 0}">
+                    <option value="1">宿舍长</option>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power > 1}">
+                    <option value="2">普通管理员</option>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power > 2}">
+                    <option value="3">超级管理员</option>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power > 3}">
+                    <option value="4">系统管理员</option>
+                </c:if>
             </select>
         </div>
     </div>

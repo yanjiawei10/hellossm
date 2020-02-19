@@ -50,7 +50,7 @@ public class VisitorController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/add")
+    @RequestMapping("/addLogin")
     public ModelAndView addVisitor(Visitor visitor) throws Exception {
         ModelAndView mv = new ModelAndView();
         if (visitor == null || visitor.getName() == null || visitor.getSno() == null || visitor.getPhone() == null || visitor.getPlace() == null) {
@@ -80,13 +80,13 @@ public class VisitorController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/logout")
+    @RequestMapping("/login_out")
     public ModelAndView logout(HttpServletRequest request) throws Exception {
         ModelAndView mv = new ModelAndView();
         String id = request.getParameter("id");
         if (id == null || "".trim().equals(id)) {
             mv.addObject("logout_msg","系统繁忙，请稍后再试！");
-            mv.setViewName("error_msg");
+            mv.setViewName("regist_visitor");
         }
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         visitorService.logout(id,date);
@@ -126,7 +126,7 @@ public class VisitorController {
      * @throws Exception
      */
     @RequestMapping("/findAll")
-    public ModelAndView findAll(@RequestParam(name = "page",required = true,value = "1") int page, @RequestParam(name = "size",required = true,value = "4") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
