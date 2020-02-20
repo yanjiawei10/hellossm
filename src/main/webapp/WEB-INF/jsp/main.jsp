@@ -117,7 +117,7 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('宿舍列表','error.html')">
+                        <a onclick="xadmin.add_tab('宿舍列表','${pageContext.request.contextPath}/dorm/findAll?page=1&size=4')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>宿舍列表</cite></a>
                     </li>
