@@ -14,6 +14,6 @@
 
 <h4 style="text-align: center;">恭喜您，来访登记成功！</h4>
 <br>
-<a href="${pageContext.request.contextPath}/visitor/login_out?id=${id}">注销登记</a>
+<a href="${pageContext.request.contextPath}/visitor/login_out?id=${id}" style="text-align: center;">注销登记</a>
 </body>
 </html>

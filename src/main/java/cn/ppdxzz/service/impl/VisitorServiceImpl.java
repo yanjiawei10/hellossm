@@ -98,4 +98,17 @@ public class VisitorServiceImpl implements VisitorService {
         WriteExcel excel = new WriteExcel(title,datalist);
         return excel.export();
     }
+
+    /**
+     * 访客日志
+     * @param page
+     * @param size
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Visitor> log(int page,int size) throws Exception {
+        PageHelper.startPage(page,size);
+        return visitorDao.findAll();
+    }
 }

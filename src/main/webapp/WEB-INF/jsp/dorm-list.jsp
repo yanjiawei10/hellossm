@@ -34,11 +34,11 @@
         }
         $("#serarch_btn").click(function () {
             var keyword = $("#keyword").val();
-            location.href="${pageContext.request.contextPath}/dorm/findAll?page=1&size=4&keyword="+keyword;
+            location.href="${pageContext.request.contextPath}/dorm/findAll?page=1&size=5&keyword="+keyword;
         });
         $("#refresh").click(function () {
             $("#myform").reset();
-            location.href="${pageContext.request.contextPath}/dorm/findAll?page=1&size=4";
+            location.href="${pageContext.request.contextPath}/dorm/findAll?page=1&size=5";
         });
     </script>
 </head>
@@ -66,7 +66,7 @@
                             <button class="layui-btn"  id="serarch_btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <div class="layui-inline layui-show-xs-block x-right">
-                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/dorm/findAll?page=1&size=4"><i class="layui-icon">&#xe669;</i></a>
+                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/dorm/findAll?page=1&size=5"><i class="layui-icon">&#xe669;</i></a>
                         </div>
                     </form>
                 </div>
@@ -109,6 +109,9 @@
                                     <a title="查看详情" onclick="look(${dorm.id})" href="javascript:;">
                                         <i class="layui-icon">&#xe60a;</i>
                                     </a>
+                                    <a title="进入宿舍" href="${pageContext.request.contextPath}/dorm/byDorm_leader?dorm_id=${dorm.dorm_id}">
+                                        <i class="layui-icon">&#xe857;</i>
+                                    </a>
                                 </td>
                             </c:if>
                             </c:forEach>
@@ -121,8 +124,6 @@
                         共&nbsp;${pageInfo.pages}&nbsp;页&emsp;当前页：${pageInfo.pageNum}&nbsp;/&nbsp;${pageInfo.pages}&emsp; 每页
                         <select class="form-control" id="changePageSize" onchange="changePageSize()">
                             <option value="1">${pageInfo.size}</option>
-                            <option value="2">2</option>
-                            <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>

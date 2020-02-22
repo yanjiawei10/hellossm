@@ -61,4 +61,8 @@ public interface DormDao {
 
     @Select("select * from dorms where id = #{id}")
     Dorm findById(String id) throws Exception;
+
+    @Select("select * from dorms where teacher = #{teacher}")
+    List<Dorm> findByTeacher(String teacher) throws Exception;
+
 }

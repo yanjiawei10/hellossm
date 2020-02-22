@@ -101,7 +101,7 @@
         </tr>
         <tr>
             <td><label for="status">状态</label></td>
-            <td>
+            <td colspan="3">
                 <c:if test="${stu.status == 0}">
                     <select class="form-control" name="status" id="status">
                         <option value="0" selected>禁用</option>
@@ -120,7 +120,12 @@
         <tr>
             <td colspan="4">
                 <button type="button" id="edit-btn" class="btn btn-primary">确认修改</button>
-                <a type="button" class="btn btn-default" href="${pageContext.request.contextPath}/student/findAll?page=1&size=4">返回列表</a>
+                <c:if test="${sessionScope.adminInfo.power > 2}">
+                    <a type="button" class="btn btn-default" href="${pageContext.request.contextPath}/student/findAll">返回列表</a>
+                </c:if>
+                <c:if test="${sessionScope.adminInfo.power == 1}">
+                    <a type="button" class="btn btn-default" href="${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}">返回列表</a>
+                </c:if>
             </td>
         </tr>
         </tbody>
@@ -171,10 +176,26 @@
                 //alert(result);
                 if(result){
                     layer.msg('修改成功');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                    if (${sessionScope.adminInfo.power == 1}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return false;
+                    }
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}';},2000);
+                        return flase;
+                    }
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
                 }else {
                     layer.msg('修改失败，请联系管理员');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                    if (${sessionScope.adminInfo.power == 1}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return false;
+                    }
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}';},2000);
+                        return flase;
+                    }
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
                 }
             }
         });

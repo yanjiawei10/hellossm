@@ -3,6 +3,7 @@ package cn.ppdxzz.controller;
 import cn.ppdxzz.domain.Admin;
 import cn.ppdxzz.service.AdminService;
 import cn.ppdxzz.utils.MD5Util;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,7 @@ public class AdminController {
      * 分页查询所有管理员信息
      */
     @RequestMapping(value = "/findAllAdmin")
-    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "5") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
@@ -165,11 +166,17 @@ public class AdminController {
             if(admin.getUsername() == null || "".trim().equals(admin.getUsername())
                     || admin.getPassword() == null ||"".trim().equals(admin.getPassword())
                     || admin.getName() == null || "".trim().equals(admin.getName())
+                    || admin.getUid() == null || "".trim().equals(admin.getUid())
                     || admin.getPhone() == null || "".trim().equals(admin.getPhone())
                     || admin.getDescription() == null || "".trim().equals(admin.getDescription())) {
                         writer.write("false");
                         return;
             }
+        }
+        Admin isNull = adminService.checkUid(admin.getUid());
+        if (isNull != null) {
+            writer.write("false");
+            return;
         }
         admin.setPassword(MD5Util.MD5EncodeUtf8(admin.getPassword()));
         adminService.addAdmin(admin);
@@ -196,6 +203,7 @@ public class AdminController {
         }else {
             if(admin.getUsername() == null || "".trim().equals(admin.getUsername())
                     || admin.getName() == null || "".trim().equals(admin.getName())
+                    || admin.getUid() == null || "".trim().equals(admin.getUid())
                     || admin.getPhone() == null || "".trim().equals(admin.getPhone())
                     || admin.getDescription() == null || "".trim().equals(admin.getDescription())) {
                 writer.write("false");
@@ -238,6 +246,26 @@ public class AdminController {
         response.setHeader("contentDisposition", "attachment;filename=adminsInfo.xls");
         ServletOutputStream outputStream = response.getOutputStream();
         IOUtils.copy(is,outputStream);
+
+    }
+
+    /**
+     * 校验学工号是否已被注册
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping("/checkUid")
+    public void checkUid(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+        PrintWriter writer = response.getWriter();
+        String uid = request.getParameter("uid");
+        Admin admin = adminService.checkUid(uid);
+        if (admin != null) {
+            writer.write("true");//uid已被注册
+            return;
+        }
 
     }
 

@@ -110,13 +110,35 @@
         <tr>
             <td colspan="4">
                 <button type="button" id="add-dorm" class="btn btn-primary">确认添加</button>
-                <a type="button" href="${pageContext.request.contextPath}/dorm/findAll" class="btn btn-default">返回列表</a>
+                <a href="javascript:window.history.back(-1)" target="_self" class="btn btn-default">返回列表</a>
             </td>
         </tr>
         </tbody>
     </table>
 </form>
 <script>
+    $("#dorm3").change(function () {
+        var d1 = $("#dorm1").val();
+        var d2 = $("#dorm2").val();
+        var dorm3 = $("#dorm3").val().trim();
+        var dorm_id = d1+""+d2+""+dorm3;
+        $.ajax({
+            url: "${pageContext.request.contextPath}/dorm/isExist",//要请求的服务器url
+            //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
+            //data:{method:"ajaxTest",val:value},
+            data: {
+                dorm_id:dorm_id
+            },
+            type: "POST", //请求方式为POST
+            dataType: "json",
+            success:function(result){  //这个方法会在服务器执行成功时被调用 ，参数data就是服务器返回的值(现在是json类型)
+                //alert(result);
+                if(result){
+                    layer.msg('该宿舍已存在，请重新注册！');
+                }
+            }
+        });
+    });
     $("#add-dorm").click(function () {
         var dorm3 = $("#dorm3").val().trim();
         var dorm_intro = $("#dorm_intro").val().trim();
@@ -152,11 +174,19 @@
             success:function(result){  //这个方法会在服务器执行成功时被调用 ，参数data就是服务器返回的值(现在是json类型)
                 //alert(result);
                 if(result){
-                    layer.msg('添加成功！');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll?page=1&size=4';},2000);
+                    layer.msg('添加成功');
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byTeacher?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return flase;
+                    }
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll';},2000);
                 }else {
-                    layer.msg('添加失败，请联系管理员');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll?page=1&size=4';},2000);
+                    layer.msg('添加失败，请重新添加');
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byTeacher?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return flase;
+                    }
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll';},2000);
                 }
             }
         });

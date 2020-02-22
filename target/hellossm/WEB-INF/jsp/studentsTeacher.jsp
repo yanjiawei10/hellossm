@@ -25,22 +25,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script>
-        function changePageSize() {
-            //获取下拉框的值
-            var pageSize = $("#changePageSize").val();
-            //向服务器发送请求，改变每页显示条数
-            location.href = "${pageContext.request.contextPath}/student/findAll?page=1&size="+ pageSize;
-        }
-        $("#serarch_btn").click(function () {
-            var keyword = $("#keyword").val();
-            location.href="${pageContext.request.contextPath}/student/findAll?page=1&size=5&keyword="+keyword;
-        });
-        $("#refresh").click(function () {
-            $("#myform").reset();
-            location.href="${pageContext.request.contextPath}/student/findAll?page=1&size=5";
-        });
-    </script>
+
 </head>
 <body>
 <%--<div class="x-nav">
@@ -58,21 +43,20 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form id="myform" class="layui-form layui-col-space5">
+                    <%--<form id="myform" class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
                             <input class="layui-input" type="text" autocomplete="off" placeholder="请输入关键字" name="keyword" id="keyword" value="${param.keyword}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn"  id="serarch_btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                            <button class="layui-btn"  id="search_btn" ><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <div class="layui-inline layui-show-xs-block x-right">
-                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/student/findAll?page=1&size=5"><i class="layui-icon">&#xe669;</i></a>
+                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=1&size=5"><i class="layui-icon">&#xe669;</i></a>
                         </div>
-                    </form>
+                    </form>--%>
                 </div>
                 <xblock>
                     <a href="${pageContext.request.contextPath}/student/addStudent" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>添加</a>
-                    <a onclick="exportInfo()" class="layui-btn layui-btn-warm" href="javascript:;"><i class="layui-icon">&#xe67c;</i>导出</a>
                     <span class="x-right" style="line-height:40px">共有数据：${pageInfo.total} 条</span>
                 </xblock>
                 <div class="layui-card-body">
@@ -88,9 +72,7 @@
                             <th style="text-align: center">宿舍号</th>
                             <th style="text-align: center">育人导师</th>
                             <th style="text-align: center">状态</th>
-                            <c:if test="${sessionScope.adminInfo.power > 1}">
                             <th style="text-align: center">操作</th>
-                            </c:if>
                         </thead>
                         <tbody>
                         <%
@@ -112,16 +94,11 @@
                             <c:if test="${student.status == 0}">
                                 <td><button class="layui-btn layui-btn-danger layui-btn-sm">禁用</button></td>
                             </c:if>
-                            <c:if test="${sessionScope.adminInfo.power > 1}">
-                            <td class="td-manage">
-                                <a title="编辑" href="${pageContext.request.contextPath}/student/editStudent?sno=${student.sno}">
-                                    <i class="layui-icon">&#xe642;</i>
-                                </a>
-                                <a title="删除" onclick="member_del(this,${student.sno},${sessionScope.adminInfo.power})" href="javascript:;">
-                                    <i class="layui-icon">&#xe640;</i>
-                                </a>
-                            </td>
-                            </c:if>
+                                <td class="td-manage">
+                                    <a title="编辑" href="${pageContext.request.contextPath}/student/editStudent?sno=${student.sno}">
+                                        <i class="layui-icon">&#xe642;</i>
+                                    </a>
+                                </td>
                             </c:forEach>
                         </tr>
                         </tbody>
@@ -168,22 +145,22 @@
                 <div class="layui-card-body x-right" style="height: min-content">
                     <div class="page">
                         <div>
-                            <a class="next" href="${pageContext.request.contextPath}/student/findAll?page=1&size=${pageInfo.pageSize}&keyword=${param.keyword}">首页</a>
+                            <a class="next" href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=1&size=${pageInfo.pageSize}&keyword=${param.keyword}">首页</a>
                             <c:if test="${pageInfo.pageNum > 1}">
-                                <a class="prev" href="${pageContext.request.contextPath}/student/findAll?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">上一页</a>
+                                <a class="prev" href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">上一页</a>
                             </c:if>
                             <c:forEach var="i" begin="${begin}" end="${end}" step="1">
                                 <c:if test="${pageInfo.pageNum == i}">
                                     <span class="current">${i}</span>
                                 </c:if>
                                 <c:if test="${pageInfo.pageNum != i}">
-                                    <a class="num" href="${pageContext.request.contextPath}/student/findAll?page=${i}&size=${pageInfo.pageSize}&keyword=${param.keyword}">${i}</a>
+                                    <a class="num" href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=${i}&size=${pageInfo.pageSize}&keyword=${param.keyword}">${i}</a>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${pageInfo.pageNum < pageInfo.pages}">
-                                <a class="next" href="${pageContext.request.contextPath}/student/findAll?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">下一页</a>
+                                <a class="next" href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}&keyword=${param.keyword}">下一页</a>
                             </c:if>
-                            <a class="next" href="${pageContext.request.contextPath}/student/findAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&keyword=${param.keyword}">尾页</a>
+                            <a class="next" href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=${pageInfo.pages}&size=${pageInfo.pageSize}&keyword=${param.keyword}">尾页</a>
                         </div>
                     </div>
                 </div>
@@ -191,39 +168,24 @@
         </div>
     </div>
 </div>
-
 <script>
-    //删除操作
-    function member_del(obj,sno,power){
-        layer.confirm('确认要删除吗？',function(index){
-            if (power < 3){
-                layer.msg('对不起，您没有权限！');
-                return false;
-            }
-            //发异步删除数据
-            $.get("${pageContext.request.contextPath}/student/delete",{"sno":sno},function (data) {
-                if(data){
-                    layer.msg('删除成功!',{icon:1,time:2000});
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
-
-                }else {
-                    layer.msg('删除失败!',{icon:1,time:2000});
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
-                }
-            });
-        });
+    function changePageSize() {
+        //获取下拉框的值
+        var pageSize = $("#changePageSize").val();
+        //向服务器发送请求，改变每页显示条数
+        location.href = "${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=1&size="+ pageSize;
     }
-    //导出Excel操作
-    function exportInfo() {
-        if (${sessionScope.adminInfo.power < 3}) {
-            layer.msg('对不起，您权限不足');
-            return false;
-        }
-        layer.confirm('确定导出所有学生数据吗？',function (index) {
-            location.href="${pageContext.request.contextPath}/student/export";
-            layer.close(index);
-        });
-    }
+    $("#search_btn").click(function () {
+        alert(1234);
+        var keyword = $("#keyword").val();
+        alert(keyword);
+        alert("${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=1&size=5&keyword="+keyword);
+        location.href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=1&size=5&keyword="+keyword;
+    });
+    $("#refresh").click(function () {
+        $("#myform").reset();
+        location.href="${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}&page=1&size=5";
+    });
 </script>
 </body>
 </html>

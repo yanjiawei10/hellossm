@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: user
@@ -25,7 +26,7 @@
 <!-- 顶部开始 -->
 <div class="container">
     <div class="logo">
-        <a href="http://www.ppdxzz.cn">皮皮的小猪仔</a></div>
+        <a href="http://ppdxzz.cn">皮皮的小猪仔</a></div>
     <div class="left_open">
         <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
     </div>
@@ -35,13 +36,13 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="xadmin.add_tab('消息','http://www.baidu.com')">消息</a>
+                    <a onclick="power()">消息</a>
                 </dd>
                 <dd>
-                    <a href="${pageContext.request.contextPath}">XXX</a>
+                    <a onclick="power()">XXX</a>
                 </dd>
                 <dd>
-                    <a href="${pageContext.request.contextPath}">XXX</a>
+                    <a onclick="power()">XXX</a>
                 </dd>
             </dl>
         </li>
@@ -50,7 +51,7 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="xadmin.add_tab('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                    <a onclick="power()">个人信息</a></dd>
                 <dd>
                     <a href="${pageContext.request.contextPath}/loginOut">切换帐号</a></dd>
                 <dd>
@@ -58,7 +59,7 @@
             </dl>
         </li>
         <li class="layui-nav-item to-index">
-            <a href="/">前台首页</a>
+            <a href="http://ppdxzz.cn"><i class="layui-icon">&#xe64c;</i>友情链接</a>
         </li>
     </ul>
 </div>
@@ -68,6 +69,7 @@
 <div class="left-nav">
     <div id="side-nav">
         <ul id="nav">
+            <c:if test="${sessionScope.adminInfo.power > 2}">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="学生管理">&#xe6b8;</i>
@@ -76,12 +78,30 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('学生信息','${pageContext.request.contextPath}/student/findAll?page=1&size=4')">
+                        <a onclick="xadmin.add_tab('学生信息','${pageContext.request.contextPath}/student/findAll')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>学生信息</cite></a>
                     </li>
                 </ul>
             </li>
+            </c:if>
+            <c:if test="${sessionScope.adminInfo.power == 2}">
+                <li>
+                    <a href="javascript:;">
+                        <i class="iconfont left-nav-li" lay-tips="学生管理">&#xe6b8;</i>
+                        <cite>学生管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a onclick="xadmin.add_tab('学生信息','${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}')">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>学生信息</cite></a>
+                        </li>
+                    </ul>
+                </li>
+            </c:if>
+            <c:if test="${sessionScope.adminInfo.power > 2}">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
@@ -89,50 +109,55 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('管理员列表','${pageContext.request.contextPath}/findAllAdmin?page=1&size=4')">
+                        <a onclick="xadmin.add_tab('管理员列表','${pageContext.request.contextPath}/findAllAdmin')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员列表</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>角色管理</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('权限分类','admin-cate.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>权限分类</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
+                        <a onclick="power()">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限管理</cite></a>
                     </li>
                 </ul>
             </li>
+            </c:if>
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="宿舍管理">&#xe6b4;</i>
                     <cite>宿舍管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
-                    <li>
-                        <a onclick="xadmin.add_tab('宿舍列表','${pageContext.request.contextPath}/dorm/findAll?page=1&size=4')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>宿舍列表</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('人员信息','error.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>人员信息</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('宿舍卫生','demo.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>宿舍卫生</cite></a>
-                    </li>
+                    <c:if test="${sessionScope.adminInfo.power > 2}">
+                        <li>
+                            <a onclick="xadmin.add_tab('宿舍列表','${pageContext.request.contextPath}/dorm/findAll')">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>宿舍列表</cite></a>
+                        </li>
+                    </c:if>
+                    <%--普通管理员只能看到自己所带宿舍的人员信息--%>
+                    <c:if test="${sessionScope.adminInfo.power == 2}">
+                        <li>
+                            <a onclick="xadmin.add_tab('宿舍列表','${pageContext.request.contextPath}/dorm/byTeacher?uid=${sessionScope.adminInfo.uid}')">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>宿舍列表</cite></a>
+                        </li>
+                    </c:if>
+                    <%--宿舍长只能看到自己所在宿舍的人员信息--%>
+                    <c:if test="${sessionScope.adminInfo.power == 1}">
+                        <li>
+                            <a onclick="xadmin.add_tab('宿舍信息','${pageContext.request.contextPath}/dorm/look?uid=${sessionScope.adminInfo.uid}')">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>宿舍信息</cite></a>
+                        </li>
+                        <li>
+                            <a onclick="xadmin.add_tab('人员信息','${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}')">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>人员信息</cite></a>
+                        </li>
+                    </c:if>
                 </ul>
             </li>
+            <c:if test="${sessionScope.adminInfo.power > 2}">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="访客管理">&#xe6f5;</i>
@@ -152,7 +177,7 @@
                         </a>
                     </li>
                     <li>
-                        <a onclick="xadmin.open('访客日志','unicode.html')">
+                        <a onclick="xadmin.add_tab('访客日志','${pageContext.request.contextPath}/visitor/log?page=1&size=10')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>访客日志</cite>
                         </a>
@@ -166,17 +191,18 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('地图','echarts3.html')">
+                        <a onclick="power()">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>地图</cite></a>
+                            <cite>曲线统计</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('饼图','echarts4.html')">
+                        <a onclick="power()">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>饼图</cite></a>
+                            <cite>实时流量统计</cite></a>
                     </li>
                 </ul>
             </li>
+            </c:if>
         </ul>
     </div>
 </div>
@@ -192,7 +218,9 @@
         </ul>
         <div class="layui-tab-content"><%--中间的空白面板--%>
             <div class="layui-tab-item layui-show o_div" >
-                <jsp:include page="welcome.jsp"></jsp:include>
+                <c:if test="${sessionScope.adminInfo.power > 2}">
+                    <jsp:include page="welcome.jsp"></jsp:include>
+                </c:if>
             </div>
         </div>
         <div id="tab_show"></div>
@@ -208,6 +236,10 @@
 <script>
     function tip() {
         layer.msg('目前暂不支持网页端登记');
+        return false;
+    }
+    function power() {
+        layer.msg('该功能暂未开放');
         return false;
     }
 </script>

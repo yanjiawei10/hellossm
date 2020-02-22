@@ -46,7 +46,7 @@ public class StudentController {
      * @throws Exception
      */
     @RequestMapping("/findAll")
-    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "5") int size, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
@@ -107,8 +107,17 @@ public class StudentController {
     }
 
     @RequestMapping("/addStudent")
-    public String addStudent() {
-        return "student-add";
+    public ModelAndView addStudent(HttpServletRequest request) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        ModelAndView mv = new ModelAndView();
+        String dorm_id = request.getParameter("dorm_id");
+        if (dorm_id != null) {
+            mv.addObject("dorm_id",dorm_id);
+            mv.setViewName("dormStudent-add");
+            return mv;
+        }
+        mv.setViewName("student-add");
+        return mv;
     }
 
     /**
@@ -121,6 +130,12 @@ public class StudentController {
     public void add(Student student,HttpServletResponse response) throws Exception {
         PrintWriter writer = response.getWriter();
         if (student == null || studentService.findBySno(student.getSno()) != null) {
+            writer.write("false");
+            return;
+        }
+
+        Student s = studentService.findBySno(student.getSno());
+        if (s != null) {
             writer.write("false");
             return;
         }

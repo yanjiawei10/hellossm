@@ -45,6 +45,11 @@
             <td style="text-align: center"><label>育人导师</label></td>
             <td colspan="3" style="text-align: center">${dorm.teacher}</td>
         </tr>
+        <c:if test="${sessionScope.adminInfo.power == 1}">
+            <tr>
+                <td colspan="4"><a class="btn btn-warning" href="${pageContext.request.contextPath}/dorm/toUpdate?id=${dorm.id}">去修改</a></td>
+            </tr>
+        </c:if>
         </tbody>
     </table>
 </form>

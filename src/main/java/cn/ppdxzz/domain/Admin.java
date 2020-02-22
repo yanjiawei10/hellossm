@@ -13,6 +13,7 @@ public class Admin implements Serializable {
     private String username;    //用户名
     private String password;    //密码
     private String name;        //姓名
+    private String uid;         //学/工号
     private String phone;       //手机号
     private int power;          //是否开启权限
     private String description; //描述
@@ -20,11 +21,12 @@ public class Admin implements Serializable {
     public Admin() {
     }
 
-    public Admin(Integer id, String username, String password, String name, String phone, int power, String description) {
+    public Admin(Integer id, String username, String password, String name, String uid, String phone, int power, String description) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
+        this.uid = uid;
         this.phone = phone;
         this.power = power;
         this.description = description;
@@ -62,6 +64,14 @@ public class Admin implements Serializable {
         this.name = name;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -93,6 +103,7 @@ public class Admin implements Serializable {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
+                ", uid='" + uid + '\'' +
                 ", phone='" + phone + '\'' +
                 ", power=" + power +
                 ", description='" + description + '\'' +

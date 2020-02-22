@@ -1,7 +1,11 @@
 package cn.ppdxzz.controller;
 
+import cn.ppdxzz.domain.Admin;
 import cn.ppdxzz.domain.Dorm;
+import cn.ppdxzz.domain.Student;
+import cn.ppdxzz.service.AdminService;
 import cn.ppdxzz.service.DormService;
+import cn.ppdxzz.service.StudentService;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -30,10 +32,22 @@ import java.util.List;
 public class DormController {
 
     private DormService dormService;
+    private StudentService studentService;
+    private AdminService adminService;
+
+    @Autowired
+    public void setStudentService(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @Autowired
     public void setDormService(DormService dormService) {
         this.dormService = dormService;
+    }
+
+    @Autowired
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     /**
@@ -46,7 +60,7 @@ public class DormController {
      * @throws Exception
      */
     @RequestMapping("/findAll")
-    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1")int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1")int page, @RequestParam(name = "size", required = true, defaultValue = "5") int size, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
@@ -110,7 +124,7 @@ public class DormController {
         PrintWriter writer = response.getWriter();
         String dorm_id = request.getParameter("dorm_id");
         Dorm isNull = dormService.findByDormId(dorm_id);
-        if (isNull == null) {
+        if (isNull != null) {
             writer.write("true");
             return;
         }
@@ -179,16 +193,89 @@ public class DormController {
      */
     @RequestMapping("/look")
     public ModelAndView look(HttpServletRequest request) throws Exception {
-        String id = request.getParameter("id");
         ModelAndView mv = new ModelAndView();
-        Dorm dorm = dormService.findById(id);
+        Dorm dorm = null;
+        String id = request.getParameter("id");
+        String uid = request.getParameter("uid");
+        if (id == null && uid != null) {
+            Student stu = studentService.findBySno(uid);
+            dorm = dormService.findByDormId(stu.getDorm_id());
+        }else if (id != null) {
+            dorm = dormService.findById(id);
+        }else {
+            return mv;
+        }
         mv.addObject("dorm",dorm);
         mv.setViewName("look-dorm");
 
         return mv;
     }
 
+    /**
+     * 宿舍学生信息
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/byDorm_leader")
+    public ModelAndView find(HttpServletRequest request) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        ModelAndView mv = new ModelAndView();
+        String uid = request.getParameter("uid");
+        String dorm_id = request.getParameter("dorm_id");
+        if (dorm_id != null) {
+            List<Student> studentsInfo = studentService.findByDormId(dorm_id, 1);
+            mv.addObject("studentsInfo",studentsInfo);
+            mv.setViewName("dormStudentsInfo");
+            return mv;
+        }
+        Student stu = studentService.findBySno(uid);
+//        Dorm dormInfo = dormService.findByDormId(stu.getDorm_id());
+        List<Student> studentsInfo = studentService.findByDormId(stu.getDorm_id(), 1);
+//        mv.addObject("dormInfo",dormInfo);
+        mv.addObject("studentsInfo",studentsInfo);
+        mv.setViewName("dormStudentsInfo");
 
+        return mv;
+    }
+
+    @RequestMapping("/byTeacher")
+    public ModelAndView find1(HttpServletRequest request) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        String uid = request.getParameter("uid");
+        Admin admin = adminService.checkUid(uid);
+        List<Dorm> dorms = dormService.findByTeacher(admin.getName());
+        mv.addObject("dorms",dorms);
+        mv.setViewName("dormsTeacherInfo");
+        return mv;
+    }
+
+    /**
+     * 查询所有育人导师为teacher的学生集合
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/findStudent")
+    public ModelAndView findStudents(@RequestParam(name = "page", required = true, defaultValue = "1")int page, @RequestParam(name = "size", required = true, defaultValue = "5") int size,HttpServletRequest request) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        ModelAndView mv = new ModelAndView();
+        List<Student> students = null;
+        String teacher = request.getParameter("name");
+        String keyword = request.getParameter("keyword");
+        System.out.println(keyword);
+        if (keyword == null || "".trim().equals(keyword) || keyword.length() == 0) {
+            students = studentService.findByTeacher(page,size,teacher);
+        }
+        if (keyword != null){
+            students = studentService.searchStudent(page,size,teacher,keyword);
+        }
+        PageInfo pageInfo = new PageInfo(students);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("studentsTeacher");
+
+        return mv;
+    }
 
 
 

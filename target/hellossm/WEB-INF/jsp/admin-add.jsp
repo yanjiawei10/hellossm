@@ -37,6 +37,12 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="col-sm-2 control-label form-label">学/工号:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="uid" id="uid">
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-sm-2 control-label form-label">手机号:</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" name="phone" id="phone">
@@ -96,6 +102,14 @@
             });
         });
     });
+    $("#uid").change(function () {
+        var uid = $("#uid").val().trim();
+        $.get("${pageContext.request.contextPath}/checkUid",{"uid":uid},function (data) {
+            if (data) {
+                layer.msg('该学/工号已被注册，请重新输入');
+            }
+        });
+    });
     function toValidate(){
         var val = new validate({
             /*rules里面是检验规则，
@@ -105,6 +119,7 @@
             rules:{
                 username:"notEmpty",
                 name:"notEmpty",
+                uid:"notEmpty",
                 description:"notEmpty",
                 phone:"mobile",
                 password:"notEmpty"
@@ -120,6 +135,7 @@
         var username = $("#username").val().trim();
         var password = $("#password").val().trim();
         var name = $("#name").val().trim();
+        var uid = $("#uid").val().trim();
         var phone = $("#phone").val().trim();
         var power = $("#power").val().trim();
         var description = $("#description").val().trim();
@@ -128,12 +144,13 @@
             //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
             //data:{method:"ajaxTest",val:value},
             data: {
-                username:$("#username").val().trim(),
-                password:$("#password").val().trim(),
-                name: $("#name").val().trim(),
-                phone: $("#phone").val().trim(),
-                power: $("#power").val().trim(),
-                description: $("#description").val().trim(),
+                username:username,
+                password:password,
+                name: name,
+                uid:uid,
+                phone: phone,
+                power: power,
+                description: description
             },
             type: "POST", //请求方式为POST
             dataType: "json",   //服务器返回的数据是什么类型

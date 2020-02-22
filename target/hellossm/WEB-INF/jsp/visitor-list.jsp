@@ -20,7 +20,7 @@
     <script src="${pageContext.request.contextPath}/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/xadmin.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/layer/layer.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -34,11 +34,11 @@
         }
         $("#serarch_btn").click(function () {
             var keyword = $("#keyword").val();
-            location.href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=4&keyword="+keyword;
+            location.href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=5&keyword="+keyword;
         });
         $("#refresh").click(function () {
             $("#myform").reset();
-            location.href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=4";
+            location.href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=5";
         });
     </script>
 </head>
@@ -66,7 +66,7 @@
                             <button class="layui-btn"  id="serarch_btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <div class="layui-inline layui-show-xs-block x-right">
-                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=4"><i class="layui-icon">&#xe669;</i></a>
+                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/visitor/findAll?page=1&size=5"><i class="layui-icon">&#xe669;</i></a>
                         </div>
                     </form>
                 </div>
@@ -111,7 +111,7 @@
                             <td>${visitor.visit_result}</td>
                             <c:if test="${sessionScope.adminInfo.power > 2}">
                                 <td class="td-manage">
-                                    <a title="注销访客" onclick="update(${visitor.id})" href="javascript:;">
+                                    <a title="注销访客" onclick="toUpdate('${visitor.id}');"  href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
                                 </td>
@@ -126,8 +126,6 @@
                         共&nbsp;${pageInfo.pages}&nbsp;页&emsp;当前页：${pageInfo.pageNum}&nbsp;/&nbsp;${pageInfo.pages}&emsp; 每页
                         <select class="form-control" id="changePageSize" onchange="changePageSize()">
                             <option value="1">${pageInfo.size}</option>
-                            <option value="2">2</option>
-                            <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
@@ -189,21 +187,6 @@
 </div>
 
 <script>
-    function update(id) {
-        layer.confirm('确定要注销此访客记录吗',function (index) {
-            layer.close(index);
-            $.get("${pageContext.request.contextPath}/visitor/updateStatus",{"id":id},function (data) {
-                if (data) {
-                    layer.msg('注销成功');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/visitor/findAll?page=1&size=4';},2000);
-                }else {
-                    layer.msg('系统繁忙，请联系系统管理员');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/visitor/findAll?page=1&size=4';},2000);
-                }
-            });
-        });
-
-    }
     //导出Excel操作
     function exportInfo(power) {
         if (power < 3) {
@@ -213,6 +196,20 @@
         layer.confirm('确定导出所有访客数据吗？',function (index) {
             location.href="${pageContext.request.contextPath}/visitor/visitorInfo";
             layer.close(index);
+        });
+    }
+    function toUpdate(id) {
+        layer.confirm('确定要注销此访客记录吗',function (index) {
+            layer.close(index);
+            $.get("${pageContext.request.contextPath}/visitor/updateStatus",{"id":id},function (data) {
+                if (data) {
+                    layer.msg('注销成功');
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/visitor/findAll';},2000);
+                }else {
+                    layer.msg('系统繁忙，请联系系统管理员');
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/visitor/findAll';},2000);
+                }
+            });
         });
     }
 </script>

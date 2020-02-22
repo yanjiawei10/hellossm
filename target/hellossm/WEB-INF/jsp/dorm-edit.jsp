@@ -183,7 +183,7 @@
         <tr>
             <td colspan="4">
                 <button type="button" id="update-dorm" class="btn btn-warning">确认修改</button>
-                <a type="button" href="${pageContext.request.contextPath}/dorm/findAll" class="btn btn-default">返回列表</a>
+                <a href="javascript:window.history.back(-1)" target="_self" class="btn btn-default">返回列表</a>
             </td>
         </tr>
         </tbody>
@@ -224,10 +224,28 @@
                 //alert(result);
                 if(result){
                     layer.msg('修改成功！');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll?page=1&size=4';},2000);
+                    if (${sessionScope.adminInfo.power == 1}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/look?uid=${sessionScope.adminInfo.uid}';},2000);
+                    }
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byTeacher?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return flase;
+                    }
+                    if (${sessionScope.adminInfo.power > 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll';},2000);
+                    }
                 }else {
                     layer.msg('修改失败，请联系管理员');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll?page=1&size=4';},2000);
+                    if (${sessionScope.adminInfo.power == 1}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/look?uid=${sessionScope.adminInfo.uid}';},2000);
+                    }
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byTeacher?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return flase;
+                    }
+                    if (${sessionScope.adminInfo.power > 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findAll';},2000);
+                    }
                 }
             }
         });

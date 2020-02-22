@@ -57,7 +57,7 @@ public interface AdminDao {
      * @param admin
      * @throws Exception
      */
-    @Update("update admins set username= #{username},name = #{name}, phone = #{phone}, description = #{description} where id = #{id}")
+    @Update("update admins set username= #{username},name = #{name},uid = #{uid}, phone = #{phone}, description = #{description} where id = #{id}")
     void updateAdmin(Admin admin) throws Exception;
 
     /**
@@ -65,7 +65,7 @@ public interface AdminDao {
      * @param admin
      * @throws Exception
      */
-    @Insert("insert into admins(username,password,name,phone,power,description) values (#{username},#{password},#{name},#{phone},#{power},#{description})")
+    @Insert("insert into admins(username,password,name,uid,phone,power,description) values (#{username},#{password},#{name},#{uid},#{phone},#{power},#{description})")
     void addAdmin(Admin admin) throws Exception;
 
     /**
@@ -73,6 +73,15 @@ public interface AdminDao {
      */
     @Select("select * from admins where username = #{u_name}")
     Boolean checkUserName(String u_name) throws Exception;
+
+    /**
+     * 校验学/工号是否已被注册
+     * @param uid
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from admins where uid = #{uid}")
+    Admin checkUid(String uid) throws Exception;
 
     /**
      * 重置密码
@@ -85,7 +94,7 @@ public interface AdminDao {
 
     //select * from admins where username like '%p%' or name like '%万%' or power like '%1%' or description like '%管理员%';
     //模糊搜索管理员信息，查询结果返回一个list集合
-    @Select("select * from admins where username like '%${keyword}%' or name like '%${keyword}%' or phone like '%${keyword}%' or power like '%${keyword}%' or description like '%${keyword}%' ")
+    @Select("select * from admins where username like '%${keyword}%' or name like '%${keyword}%' or uid like '%${keyword}%' or phone like '%${keyword}%' or power like '%${keyword}%' or description like '%${keyword}%' ")
     List<Admin> serarchInfo(@Param(value="keyword") String keyword) throws Exception;
 
     /**

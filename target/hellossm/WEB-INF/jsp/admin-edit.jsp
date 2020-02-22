@@ -32,38 +32,17 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="col-sm-2 control-label form-label">学/工号:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control"  value="${ad.uid}" name="uid" id="uid">
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-sm-2 control-label form-label">手机号:</label>
         <div class="col-sm-8">
             <input type="text" value="${ad.phone}" class="form-control" name="phone" id="phone">
         </div>
     </div>
-    <%--<div class="form-group">
-        <label class="col-sm-2 control-label form-label">权限:</label>
-        <div class="col-sm-8">
-                <c:if test="${ad.power == 0}">
-                    <select class="form-control" name="power" id="power">
-                        <option value="0" selected>未授权</option>
-                        <option value="1">授权</option>
-                        <option value="2">超级权限</option>
-                    </select>
-                </c:if>
-                <c:if test="${ad.power == 1}">
-                    <select class="form-control" name="power" id="power">
-                        <option value="0">未授权</option>
-                        <option value="1" selected>授权</option>
-                        <option value="2">超级权限</option>
-                    </select>
-                </c:if>
-
-                <c:if test="${ad.power == 2}">
-                    <select class="form-control" name="power" id="power">
-                        <option value="0" selected>未授权</option>
-                        <option value="1">授权</option>
-                        <option value="2" selected>超级权限</option>
-                    </select>
-                </c:if>
-        </div>
-    </div>--%>
     <div class="form-group">
         <label class="col-sm-2 control-label form-label">描述:</label>
         <div class="col-sm-8">
@@ -88,6 +67,7 @@
             */
             rules:{
                 name:"notEmpty",
+                uid:"notEmpty",
                 description:"notEmpty",
                 phone:"mobile",
             },
@@ -102,6 +82,7 @@
         var id = $("#id").val().trim();
         var username = $("#username").val().trim();
         var name = $("#name").val().trim();
+        var uid = $("#uid").val().trim();
         var phone = $("#phone").val().trim();
         var description = $("#description").val().trim();
         layer.confirm('确定要修改吗',function (index) {
@@ -116,11 +97,12 @@
             //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
             //data:{method:"ajaxTest",val:value},
             data: {
-                id:$("#id").val().trim(),
-                username:$("#username").val().trim(),
-                name: $("#name").val().trim(),
-                phone: $("#phone").val().trim(),
-                description: $("#description").val().trim(),
+                id:id,
+                username:username,
+                name:name,
+                uid:uid,
+                phone: phone,
+                description: description
             },
             type: "POST", //请求方式为POST
             dataType: "json",   //服务器返回的数据是什么类型

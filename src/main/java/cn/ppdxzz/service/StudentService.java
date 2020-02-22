@@ -28,5 +28,9 @@ public interface StudentService {
     //返回一个携带所有学生信息数据的InputStream输入流
     InputStream getInputStream() throws Exception;
 
+    List<Student> findByDormId(String dorm_id,Integer status) throws Exception;
 
+    List<Student> findByTeacher(int page,int size,String teacher) throws Exception;
+
+    List<Student> searchStudent(int page,int size,String teacher,String keyword) throws Exception;
 }

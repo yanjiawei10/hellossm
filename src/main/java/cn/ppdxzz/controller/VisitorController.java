@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -126,7 +127,7 @@ public class VisitorController {
      * @throws Exception
      */
     @RequestMapping("/findAll")
-    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "4") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "5") int size,HttpServletRequest request,HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         ModelAndView mv = new ModelAndView();
@@ -144,6 +145,21 @@ public class VisitorController {
         return mv;
     }
 
+    /**
+     * 访客日志`
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/log")
+    public ModelAndView log(@RequestParam(name = "page", required = true, defaultValue = "1") int page, @RequestParam(name = "size", required = true, defaultValue = "10") int size) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        List<Visitor> logs = visitorService.log(page,size);
+        PageInfo pageInfo = new PageInfo(logs);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("visitor-log");
+
+        return mv;
+    }
     /**
      * 导出访客信息
      * @param response

@@ -124,4 +124,34 @@ public class StudentServiceImpl implements StudentService {
 
         return excel.export();
     }
+
+    /**
+     * 根据宿舍号查询状态为status的学生
+     * @param dorm_id
+     * @param status
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Student> findByDormId(String dorm_id, Integer status) throws Exception {
+        return studentDao.findByDormId(dorm_id, status);
+    }
+
+    /**
+     * 查询育人导师为teacher的学生集合
+     * @param teacher
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Student> findByTeacher(int page,int size,String teacher) throws Exception {
+        PageHelper.startPage(page,size);
+        return studentDao.findByTeacher(teacher);
+    }
+
+    @Override
+    public List<Student> searchStudent(int page, int size, String teacher, String keyword) throws Exception {
+        PageHelper.startPage(page,size);
+        return studentDao.searchStudent(teacher,keyword);
+    }
 }

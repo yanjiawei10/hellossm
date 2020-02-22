@@ -34,11 +34,11 @@
         }
         $("#serarch_btn").click(function () {
             var keyword = $("#keyword").val();
-            location.href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=4&keyword="+keyword;
+            location.href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=5&keyword="+keyword;
         });
         $("#refresh").click(function () {
             $("#myform").reset();
-            location.href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=4";
+            location.href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=5";
         });
     </script>
 </head>
@@ -66,7 +66,7 @@
                             <button class="layui-btn"  id="serarch_btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <div class="layui-inline layui-show-xs-block x-right">
-                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=4"><i class="layui-icon">&#xe669;</i></a>
+                            <a class="layui-btn layui-btn-normal" href="${pageContext.request.contextPath}/findAllAdmin?page=1&size=5"><i class="layui-icon">&#xe669;</i></a>
                         </div>
                     </form>
                 </div>
@@ -82,6 +82,7 @@
                             <th style="text-align: center">ID</th>
                             <th style="text-align: center">用户名</th>
                             <th style="text-align: center">姓名</th>
+                            <th style="text-align: center">学/工号</th>
                             <th style="text-align: center">联系方式</th>
                             <th style="text-align: center">权限</th>
                             <th style="text-align: center">描述</th>
@@ -96,6 +97,7 @@
                             <td><%=j++%></td>
                             <td>${admin.username}</td>
                             <td>${admin.name}</td>
+                            <td>${admin.uid}</td>
                             <td>${admin.phone}</td>
                             <td>${admin.power}</td>
                             <td>${admin.description}</td>
@@ -120,8 +122,6 @@
                         共&nbsp;${pageInfo.pages}&nbsp;页&emsp;当前页：${pageInfo.pageNum}&nbsp;/&nbsp;${pageInfo.pages}&emsp; 每页
                         <select class="form-control" id="changePageSize" onchange="changePageSize()">
                             <option value="1">${pageInfo.size}</option>
-                            <option value="2">2</option>
-                            <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>

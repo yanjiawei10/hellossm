@@ -37,4 +37,7 @@ public interface AdminService {
     //返回一个携带所有管理员信息数据的InputStream输入流
     InputStream getInputStream() throws Exception;
 
+    //校验学工号是否被注册
+    Admin checkUid(String uid) throws Exception;
+
 }

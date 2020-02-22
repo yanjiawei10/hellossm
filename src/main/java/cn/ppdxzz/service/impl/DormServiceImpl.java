@@ -111,4 +111,9 @@ public class DormServiceImpl implements DormService {
     public Dorm findById(String id) throws Exception {
         return dormDao.findById(id);
     }
+
+    @Override
+    public List<Dorm> findByTeacher(String teacher) throws Exception {
+        return dormDao.findByTeacher(teacher);
+    }
 }

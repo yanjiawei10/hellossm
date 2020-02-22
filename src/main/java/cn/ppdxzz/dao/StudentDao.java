@@ -63,8 +63,32 @@ public interface StudentDao {
     @Update("update students set name = #{name},sex = #{sex},sno = #{sno},stu_class = #{stu_class},phone = #{phone},place = #{place},dorm_id = #{dorm_id},teacher = #{teacher},status = #{status} where id = #{id}")
     void update(Student student) throws Exception;
 
+    /**
+     * 根据宿舍号查询状态为status的宿舍学生
+     * @param dorm_id
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from students where dorm_id = #{dorm_id} and status = #{status}")
+    List<Student> findByDormId(@Param(value = "dorm_id") String dorm_id,@Param(value = "status") Integer status) throws Exception;
 
+    /**
+     * 查询育人导师为teacher的学生集合
+     * @param teacher
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from students where teacher = #{teacher}")
+    List<Student> findByTeacher(String teacher) throws Exception;
 
-
+    /**
+     * 模糊查询固定育人导师所带学生信息
+     * @param teacher
+     * @param keyword
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from students where teacher = #{teacher} and sno = #{keyword} ")
+    List<Student> searchStudent(@Param(value = "teacher") String teacher,@Param(value = "keyword") String keyword) throws Exception;
 
 }

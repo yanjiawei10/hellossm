@@ -60,26 +60,14 @@
             </td>
         </tr>
         <tr>
-            <td><label for="dorm1">宿舍号</label></td>
-            <td>
-                <select class="form-control" name="dorm1" id="dorm1">
-                    <option value="西六" selected>西六</option>
-                    <option value="西七">西七</option>
-                    <option value="西十二">西十二</option>
-                    <option value="西十三">西十三</option>
-                </select>
-            </td>
-            <td><select class="form-control" name="dorm2" id="dorm2">
-                <option value="A" selected>A</option>
-                <option value="B">B</option>
-            </select></td>
-            <td>
-                <input type="text" name="dorm3" placeholder="请直接输入宿舍号" maxlength="3" class="form-control" id="dorm3" required>
+            <td><label for="dorm_id">宿舍号</label></td>
+            <td colspan="3">
+                <input type="text" name="dorm_id" placeholder="" value="${dorm_id}" readonly maxlength="3" class="form-control" id="dorm_id" required>
             </td>
         </tr>
         <tr>
             <td><label for="teacher">育人导师</label></td>
-            <td>
+            <td colspan="3">
                 <select class="form-control" name="teacher" id="teacher">
                     <option value="小李" selected>小李</option>
                     <option value="小王">小王</option>
@@ -88,18 +76,20 @@
                     <option value="小张">小张</option>
                 </select>
             </td>
+        </tr>
+        <tr>
             <td><label for="status">状态</label></td>
-            <td>
+            <td colspan="3">
                 <select class="form-control" name="status" id="status">
-                    <option value="0" selected>禁用</option>
-                    <option value="1">激活</option>
+                    <option value="0" disabled>禁用</option>
+                    <option value="1" selected>激活</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td colspan="4">
                 <button type="button" id="add-student" class="btn btn-primary">确认添加</button>
-                <a href="javascript:window.history.back(-1)" target="_self" class="btn btn-default">返回列表</a>
+                <a type="button" href="${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}" class="btn btn-default">返回列表</a>
             </td>
         </tr>
         </tbody>
@@ -128,22 +118,14 @@
         var stu_class = $("#stu_class").val().trim();
         var phone = $("#phone").val().trim();
         var place = $("#place").val().trim();
-        var dorm3 = $("#dorm3").val().trim();
+        var dorm_id = $("#dorm_id").val().trim();
         var teacher = $("#teacher").val().trim();
         var status = $("#status").val().trim();
 
-        if (name == 0 || sex == 0 || sno == 0 || stu_class == 0 || phone == 0 || place == 0 || dorm3 == 0 || teacher == 0) {
+        if (name == 0 || sex == 0 || sno == 0 || stu_class == 0 || phone == 0 || place == 0 || teacher == 0) {
             layer.msg('字段不能为空');
             return false;
         }
-        if (${sessionScope.adminInfo.power < 1}) {
-            layer.msg('对不起，您权限不足');
-            return false;
-        }
-        var d1 = $("#dorm1").val();
-        var d2 = $("#dorm2").val();
-        var dorm_id = d1+""+d2+""+dorm3;
-        //alert(dorm_id);
         $.ajax({
             url: "${pageContext.request.contextPath}/student/add",//要请求的服务器url
             //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
@@ -165,26 +147,10 @@
                 //alert(result);
                 if(result){
                     layer.msg('添加成功！');
-                    if (${sessionScope.adminInfo.power == 1}) {
-                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
-                        return false;
-                    }
-                    if (${sessionScope.adminInfo.power == 2}) {
-                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}';},2000);
-                        return flase;
-                    }
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
                 }else {
                     layer.msg('添加失败，请联系管理员');
-                    if (${sessionScope.adminInfo.power == 1}) {
-                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
-                        return false;
-                    }
-                    if (${sessionScope.adminInfo.power == 2}) {
-                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}';},2000);
-                        return flase;
-                    }
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
                 }
             }
         });

@@ -99,7 +99,7 @@
         <tr>
             <td colspan="4">
                 <button type="button" id="add-student" class="btn btn-primary">确认添加</button>
-                <a type="button" href="${pageContext.request.contextPath}/student/findAll" class="btn btn-default">返回列表</a>
+                <a href="javascript:window.history.back(-1)" target="_self" class="btn btn-default">返回列表</a>
             </td>
         </tr>
         </tbody>
@@ -165,10 +165,26 @@
                 //alert(result);
                 if(result){
                     layer.msg('添加成功！');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                    if (${sessionScope.adminInfo.power == 1}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return false;
+                    }
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}';},2000);
+                        return flase;
+                    }
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
                 }else {
                     layer.msg('添加失败，请联系管理员');
-                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll?page=1&size=4';},2000);
+                    if (${sessionScope.adminInfo.power == 1}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/byDorm_leader?uid=${sessionScope.adminInfo.uid}';},2000);
+                        return false;
+                    }
+                    if (${sessionScope.adminInfo.power == 2}) {
+                        setTimeout(function () {window.location.href='${pageContext.request.contextPath}/dorm/findStudent?name=${sessionScope.adminInfo.name}';},2000);
+                        return flase;
+                    }
+                    setTimeout(function () {window.location.href='${pageContext.request.contextPath}/student/findAll';},2000);
                 }
             }
         });

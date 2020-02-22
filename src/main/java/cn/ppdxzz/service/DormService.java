@@ -26,4 +26,6 @@ public interface DormService {
     Dorm findByDormId(String dorm_id) throws Exception;
 
     Dorm findById(String id) throws Exception;
+
+    List<Dorm> findByTeacher(String teacher) throws Exception;
 }

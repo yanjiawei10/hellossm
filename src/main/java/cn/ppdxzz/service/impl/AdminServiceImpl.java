@@ -119,6 +119,11 @@ public class AdminServiceImpl implements AdminService {
         return list;
     }
 
+    /**
+     * 授权
+     * @param admin
+     * @throws Exception
+     */
     @Override
     public void put_power(Admin admin) throws Exception {
         adminDao.put_power(admin);
@@ -132,7 +137,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public InputStream getInputStream() throws Exception {
         //Excel中的每列列名，依次对应数据库的字段
-        String[] title = new String[]{"ID","用户名","密码","姓名","手机号","权限","描述"};
+        String[] title = new String[]{"ID","用户名","密码","姓名","学/工号","手机号","权限","描述"};
         List<Admin> admins = adminDao.exportAdminInfo();
         List<Object[]>  dataList = new ArrayList<Object[]>();
         for (int i = 0; i < admins.size(); i++) {
@@ -141,9 +146,10 @@ public class AdminServiceImpl implements AdminService {
             obj[1] = admins.get(i).getUsername();
             obj[2] = admins.get(i).getPassword();
             obj[3] = admins.get(i).getName();
-            obj[4] = admins.get(i).getPhone();
-            obj[5] = admins.get(i).getPower();
-            obj[6] = admins.get(i).getDescription();
+            obj[4] = admins.get(i).getUid();
+            obj[5] = admins.get(i).getPhone();
+            obj[6] = admins.get(i).getPower();
+            obj[7] = admins.get(i).getDescription();
             dataList.add(obj);
         }
         WriteExcel ex = new WriteExcel(title, dataList);
@@ -152,4 +158,14 @@ public class AdminServiceImpl implements AdminService {
         return in;
     }
 
+    /**
+     * 校验学/工号是否已被注册
+     * @param uid
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Admin checkUid(String uid) throws Exception {
+        return adminDao.checkUid(uid);
+    }
 }

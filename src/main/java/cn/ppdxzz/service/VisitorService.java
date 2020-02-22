@@ -23,4 +23,6 @@ public interface VisitorService {
 
     InputStream getInputStream() throws Exception;
 
+    List<Visitor> log(int page,int size) throws Exception;
+
 }
