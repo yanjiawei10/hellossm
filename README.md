@@ -78,3 +78,6 @@ SSM框架搭建的基于书院制下的宿舍信息管理系统
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
+
+#### 个人微信公众号
+JavaAnything，期待你的关注！
